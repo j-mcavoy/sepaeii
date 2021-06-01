@@ -1,10 +1,14 @@
 image: "rust:latest"
 
 build:cargo:
+    before_script:
+      - rustup default nightly
     script:
         - cargo +nightly build --release
 
 test:cargo:
-  script:
-    - rustc --version && cargo --version  # Print version info for debugging
-    - cargo +nightly test --workspace --verbose
+    before_script:
+      - rustup default nightly
+    script:
+      - rustc --version && cargo --version  # Print version info for debugging
+      - cargo +nightly test --workspace --verbose
