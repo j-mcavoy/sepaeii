@@ -2,13 +2,19 @@ image: "rust:latest"
 
 build:cargo:
     before_script:
+      - apt-get -y install lld
+      - cargo install -f cargo-binutils
       - rustup default nightly
+      - rustup component add llvm-tools-preview
     script:
         - cargo +nightly build --release
 
 test:cargo:
     before_script:
+      - apt-get -y install lld
+      - cargo install -f cargo-binutils
       - rustup default nightly
+      - rustup component add llvm-tools-preview
     script:
       - rustc --version && cargo --version  # Print version info for debugging
       - cargo +nightly test --workspace --verbose
