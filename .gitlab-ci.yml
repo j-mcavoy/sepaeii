@@ -2,9 +2,9 @@ image: "rust:latest"
 
 build:cargo:
     script:
-        - cargo build --release
+        - cargo +nightly build --release
 
 test:cargo:
   script:
     - rustc --version && cargo --version  # Print version info for debugging
-    - cargo test --workspace --verbose
+    - cargo +nightly test --workspace --verbose
