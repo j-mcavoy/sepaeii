@@ -17,19 +17,22 @@ pub fn setup(
     let pandaman = texture_atlases.add(pandaman);
 
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
-    commands.spawn_bundle(bevy_tiled_prototype::TiledMapBundle {
-        map_asset: asset_server.load("levels/roam/map2.tmx"),
-        center: TiledMapCenter(false),
-        origin: Transform::from_scale(Vec3::splat(1.0)),
-        ..Default::default()
-    });
+    commands
+        .spawn()
+        .insert(Map)
+        .insert_bundle(bevy_tiled_prototype::TiledMapBundle {
+            map_asset: asset_server.load("levels/roam/map2.tmx"),
+            center: TiledMapCenter(false),
+            origin: Transform::from_xyz(0., 0., 0.),
+            ..Default::default()
+        });
     commands
         .spawn()
         .insert(PandaMan {})
-        .insert(Transform::from_xyz(10., 10., 0.))
+        .insert(Transform::from_xyz(10., 10., 10.))
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
-            transform: Transform::from_scale(Vec3::new(1., 1., 10.)),
+            transform: Transform::from_xyz(0.0, 0.0, 0.0),
             ..Default::default()
         })
         .insert(Walkable {
@@ -37,10 +40,10 @@ pub fn setup(
             still_down: vec![1].into(),
             still_left: vec![4].into(),
             still_right: vec![4].into(),
-            walk_up: vec![6, 7, 8].into(),
-            walk_down: vec![0, 1, 2].into(),
-            walk_left: vec![3, 4, 5].into(),
-            walk_right: vec![3, 4, 5].into(),
+            walk_up: vec![6, 7, 8, 7].into(),
+            walk_down: vec![0, 1, 2, 1].into(),
+            walk_left: AnimationStrip(vec![3, 4, 5, 4].into(), true, false),
+            walk_right: vec![3, 4, 5, 4].into(),
             state: WalkableState::StillDown,
         })
         .insert(AnimationTimer(Timer::from_seconds(0.2, true)));

@@ -13,8 +13,8 @@ pub fn setup_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                 align_self: AlignSelf::FlexEnd,
                 position_type: PositionType::Absolute,
                 position: Rect {
-                    top: Val::Px(5.0),
-                    left: Val::Px(15.0),
+                    top: Val::Px(15.),
+                    left: Val::Px(100.),
                     ..Default::default()
                 },
                 ..Default::default()
