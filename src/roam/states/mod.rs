@@ -1,1 +1,2 @@
-pub mod roam_state;
+mod roam_state;
+pub use roam_state::RoamState;

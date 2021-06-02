@@ -2,6 +2,8 @@ use bevy::prelude::*;
 use std::collections::VecDeque;
 
 #[derive(Debug, Clone, Default)]
+pub struct MainMenu;
+#[derive(Debug, Clone, Default)]
 pub struct PandaMan;
 
 #[derive(Debug, Clone)]
