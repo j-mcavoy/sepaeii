@@ -1,9 +1,7 @@
 use bevy::prelude::*;
 
-mod levels;
+mod roam;
 
 fn main() {
-    App::build()
-        .add_plugin(levels::roam::plugins::RoamPlugin)
-        .run();
+    App::build().add_plugin(roam::plugin::RoamPlugin).run();
 }

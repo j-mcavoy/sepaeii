@@ -20,6 +20,11 @@ pub struct Walkable {
     pub state: WalkableState,
 }
 
+#[derive(Debug, Clone)]
+pub struct AnimationSequence {
+    frames: VecDeque<u32>,
+}
+
 #[derive(Debug, Clone, Copy)]
 pub enum WalkableState {
     StillUp,
