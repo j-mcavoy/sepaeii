@@ -1,7 +1,7 @@
 use super::components::*;
 use bevy::prelude::*;
 use bevy::render::camera::Camera;
-use bevy_tiled_prototype::TiledMapBundle;
+
 
 const VELOCITY: f32 = 0.1;
 pub fn player_movement(
