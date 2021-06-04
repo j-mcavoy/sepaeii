@@ -1,12 +1,9 @@
 use bevy::prelude::*;
-use bevy_tiled_prototype::Map;
+use bevy_tiled_prototype::CreatedMapEntities;
 use bevy_tiled_prototype::MapReadyEvent;
-use bevy_tiled_prototype::TiledMapBundle;
 
-pub fn map(maps: Res<Assets<Map>>) {
-    for map in maps.iter() {
-        println!("{:?}", map);
-    }
+pub fn map(query: Query<&CreatedMapEntities>) {
+    for _map_entities in query.iter() {}
 }
 
 pub fn tile_interpolation(
