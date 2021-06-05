@@ -22,7 +22,7 @@ pub fn setup(
         .spawn()
         .insert(Map)
         .insert_bundle(bevy_tiled_prototype::TiledMapBundle {
-            map_asset: asset_server.load("levels/roam/map2.tmx"),
+            map_asset: asset_server.load("levels/roam/map.tmx"),
             center: TiledMapCenter(false),
             origin: Transform::from_xyz(0., 0., 0.),
             ..Default::default()
