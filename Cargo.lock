@@ -640,8 +640,7 @@ dependencies = [
 [[package]]
 name = "bevy_tiled_prototype"
 version = "0.2.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f72b42b7e773c299e88f085984ee82e09ba0813870515cef9a37265090c7f750"
+source = "git+https://github.com/j-mcavoy/bevy_tiled.git#e105ce7601f01d17ffd34aab2185ca9ab3dee1cb"
 dependencies = [
  "anyhow",
  "bevy",
