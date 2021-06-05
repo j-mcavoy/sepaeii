@@ -4,9 +4,14 @@ use bevy_tiled_prototype::MapReadyEvent;
 use bevy_tiled_prototype::TiledMapBundle;
 
 pub fn map(maps: Res<Assets<Map>>) {
-    for map in maps.iter() {
-        println!("{:?}", map);
-    }
+    //for map in maps.iter() {
+    //    println!("{:?}", map.1.layers.len());
+    //    for a in map.1.layers {
+    //        for b in a.tileset_layers {
+    //            b.chunks.
+    //        }
+    //    }
+    //}
 }
 
 pub fn tile_interpolation(

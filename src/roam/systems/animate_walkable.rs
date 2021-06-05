@@ -1,7 +1,5 @@
 use bevy::prelude::*;
 
-
-
 use super::components::*;
 
 pub fn animate_walkable(
@@ -32,10 +30,10 @@ pub fn animate_walkable(
                     WalkableState::WalkLeft => &mut walkable.walk_left,
                     WalkableState::WalkRight => &mut walkable.walk_right,
                 };
-                sprite.index = animation_strip.0[0];
-                animation_strip.0.rotate_right(1);
-                sprite.flip_x = animation_strip.1;
-                sprite.flip_y = animation_strip.2;
+                animation_strip.next_frame();
+                sprite.index = animation_strip.get_frame();
+                sprite.flip_x = animation_strip.flip_x;
+                sprite.flip_y = animation_strip.flip_y;
             }
         }
     }

@@ -23,6 +23,9 @@ impl Plugin for RoamPlugin {
             )
             .add_system(toggle_menu.system())
             .add_system_set(SystemSet::on_update(RoamState::Play).with_system(map.system()))
+            .add_system_set(
+                SystemSet::on_update(RoamState::Play).with_system(tile_interpolation.system()),
+            )
             .add_system_set(SystemSet::on_enter(RoamState::Menu).with_system(setup_menu.system()))
             .add_system_set(SystemSet::on_exit(RoamState::Menu).with_system(destroy_menu.system()))
             .add_system(debug.system());

@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_tiled_prototype::DebugConfig;
 use bevy_tiled_prototype::TiledMapCenter;
 
 use super::super::components::*;
@@ -29,20 +30,27 @@ pub fn setup(
     commands
         .spawn()
         .insert(PandaMan {})
-        .insert(Transform::from_xyz(10., 10., 10.))
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
-            transform: Transform::from_xyz(0.0, 0.0, 100.0),
+            transform: Transform::from_xyz(10.0, 10.0, 3.1),
             ..Default::default()
         })
         .insert(Walkable {
             still_up: vec![7].into(),
             still_down: vec![1].into(),
-            still_left: AnimationStrip(vec![4].into(), true, false),
+            still_left: AnimationStrip {
+                sequence: vec![4],
+                flip_x: true,
+                ..Default::default()
+            },
             still_right: vec![4].into(),
             walk_up: vec![6, 7, 8, 7].into(),
             walk_down: vec![0, 1, 2, 1].into(),
-            walk_left: AnimationStrip(vec![3, 4, 5, 4].into(), true, false),
+            walk_left: AnimationStrip {
+                sequence: vec![3, 4, 5, 4],
+                flip_x: true,
+                ..Default::default()
+            },
             walk_right: vec![3, 4, 5, 4].into(),
             state: WalkableState::StillDown,
         })
