@@ -1,8 +1,13 @@
-use std::time::Duration;
-
+use super::components::map_layers::*;
 use super::components::*;
 use bevy::prelude::*;
+use bevy::prelude::*;
 use bevy::render::camera::Camera;
+use bevy_tiled_prototype::Map;
+use bevy_tiled_prototype::MapReadyEvent;
+use bevy_tiled_prototype::TiledMapBundle;
+use tiled::LayerData;
+use tiled::LayerTile;
 
 const VELOCITY: f32 = 200.;
 pub fn player_movement(
@@ -17,13 +22,14 @@ pub fn player_movement(
         )>,
         Query<(&Camera, &mut Transform)>,
     )>,
+    asset_server: Res<AssetServer>,
+    maps_handle: Res<Assets<Map>>,
 ) {
     let mut delta = Vec3::ZERO;
 
-    for (_pandaman, mut walkable, mut sprite_transform, mut animation_timer) in
-        set.q0_mut().iter_mut()
+    for (_pandaman, mut walkable, mut sprite_transform, _animation_timer) in set.q0_mut().iter_mut()
     {
-        let mut direction = Vec3::ZERO;
+        let _direction = Vec3::ZERO;
         let curr_walkablestate = walkable.state;
         let next_walkablestate = if keyboard_input.pressed(KeyCode::A) {
             WalkableState::WalkLeft
@@ -57,10 +63,34 @@ pub fn player_movement(
                 _ => Vec3::ZERO,
             };
 
-        sprite_transform.translation += delta;
-        walkable.state = next_walkablestate;
+        for (_, map) in maps_handle.iter() {
+            let layer = map.map.layers.get(OBJECTS).unwrap();
+            let tile_vec = match layer.tiles.clone() {
+                LayerData::Finite(t) => t,
+                _ => vec![],
+            };
+            if is_move_valid(sprite_transform.clone(), delta, tile_vec) {
+                walkable.state = next_walkablestate;
+                sprite_transform.translation += delta;
+            } else {
+                println!("Invalid move");
+                return;
+            }
+        }
     }
     for (_, mut transform) in set.q1_mut().iter_mut() {
         transform.translation += delta;
     }
+}
+
+fn is_move_valid(transform: Transform, delta: Vec3, tile_vec: Vec<Vec<LayerTile>>) -> bool {
+    let mut next_transform = transform.clone();
+    next_transform.translation += delta;
+
+    let (next_x, next_y): (usize, usize) = (
+        next_transform.translation.x as usize,
+        next_transform.translation.y as usize,
+    );
+    println!("{:?}", (next_x, next_y));
+    tile_vec[next_x][next_y].gid == 0
 }

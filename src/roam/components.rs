@@ -1,17 +1,17 @@
 use bevy::prelude::*;
-use std::collections::VecDeque;
+
 
 #[derive(Debug, Clone, Default)]
 pub struct MainMenu;
 pub mod map_layers {
-    pub const BACKGROUND: f32 = 2.;
-    pub const GROUND1: f32 = 4.;
-    pub const OBJECTS: f32 = 5.;
-    pub const GROUND2: f32 = 6.;
-    pub const OVERHEAD1: f32 = 7.;
-    pub const OVERHEAD2: f32 = 8.;
-    pub const OVERHEAD3: f32 = 9.;
-    pub const OVERHEAD4: f32 = 10.;
+    pub const BACKGROUND: usize = 0;
+    pub const GROUND1: usize = 1;
+    pub const OBJECTS: usize = 2;
+    pub const GROUND2: usize = 3;
+    pub const OVERHEAD1: usize = 4;
+    pub const OVERHEAD2: usize = 5;
+    pub const OVERHEAD3: usize = 6;
+    pub const OVERHEAD4: usize = 7;
 }
 #[derive(Debug, Clone, Default)]
 pub struct Map;

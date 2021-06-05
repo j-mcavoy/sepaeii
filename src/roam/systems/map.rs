@@ -1,17 +1,20 @@
+use super::components::map_layers::*;
 use bevy::prelude::*;
 use bevy_tiled_prototype::Map;
 use bevy_tiled_prototype::MapReadyEvent;
 use bevy_tiled_prototype::TiledMapBundle;
+use tiled::LayerData;
 
-pub fn map(maps: Res<Assets<Map>>) {
-    //for map in maps.iter() {
-    //    println!("{:?}", map.1.layers.len());
-    //    for a in map.1.layers {
-    //        for b in a.tileset_layers {
-    //            b.chunks.
-    //        }
-    //    }
-    //}
+pub fn map(asset_server: Res<AssetServer>, maps_handle: Res<Assets<Map>>) {
+    for (map_handle, map) in maps_handle.iter() {
+        let layer = map.map.layers.get(OBJECTS).unwrap();
+        println!("{:?}", layer.name);
+        let tile_vec = match layer.tiles.clone() {
+            LayerData::Finite(t) => t,
+            _ => vec![],
+        };
+        println!("{:?}", tile_vec[20][20].gid != 0);
+    }
 }
 
 pub fn tile_interpolation(
