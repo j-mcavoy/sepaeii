@@ -1,5 +1,5 @@
+use bevy::prelude::shape::Quad;
 use bevy::prelude::*;
-
 
 #[derive(Debug, Clone, Default)]
 pub struct MainMenu;
@@ -13,10 +13,49 @@ pub mod map_layers {
     pub const OVERHEAD3: usize = 6;
     pub const OVERHEAD4: usize = 7;
 }
+
 #[derive(Debug, Clone, Default)]
 pub struct Map;
 #[derive(Debug, Clone, Default)]
 pub struct PandaMan;
+
+trait Collider {
+    fn collides(&self, point: Vec2) -> bool;
+    //fn collides(&self, collider: T: Collides) -> bool;
+}
+pub enum ColliderError {
+    InvalidGeometry,
+}
+#[derive(Debug, Clone, Default)]
+pub struct BoxCollider {
+    pub width: f32,
+    pub height: f32,
+    pub origin: Vec2,
+}
+impl BoxCollider {
+    pub fn nw(&self) -> Vec2 {
+        self.origin
+    }
+    pub fn ne(&self) -> Vec2 {
+        self.origin + Vec2::new(self.width, 0.)
+    }
+    pub fn sw(&self) -> Vec2 {
+        self.origin + Vec2::new(0., self.height)
+    }
+    pub fn se(&self) -> Vec2 {
+        self.origin + Vec2::new(self.width, self.height)
+    }
+    pub fn corners(&self) -> Vec<Vec2> {
+        vec![self.nw(), self.ne(), self.sw(), self.se()]
+    }
+}
+impl Collider for BoxCollider {
+    fn collides(&self, point: Vec2) -> bool {
+        let nw = self.nw();
+        let se = self.se();
+        (nw.x <= point.x && nw.y <= point.y) || (se.x >= point.x && se.y >= point.y)
+    }
+}
 
 #[derive(Debug, Clone)]
 pub struct AnimationTimer(pub Timer);

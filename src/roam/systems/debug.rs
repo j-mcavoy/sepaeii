@@ -6,3 +6,7 @@ pub fn debug(mut event_rd: EventReader<MapReadyEvent>) {
         println!("Map Ready!");
     }
 }
+
+pub fn debug_collision(query: Query<&BoxCollider>) {
+    for collider in query.iter() {}
+}

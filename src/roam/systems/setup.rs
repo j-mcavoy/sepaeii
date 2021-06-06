@@ -17,7 +17,12 @@ pub fn setup(
     );
     let pandaman = texture_atlases.add(pandaman);
 
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+    let spawn_point = Vec2::new(21., -7.) * 32.;
+
+    commands.spawn_bundle(OrthographicCameraBundle {
+        transform: Transform::from_xyz(spawn_point.x, spawn_point.y, 100.),
+        ..OrthographicCameraBundle::new_2d()
+    });
     commands
         .spawn()
         .insert(Map)
@@ -32,7 +37,7 @@ pub fn setup(
         .insert(PandaMan {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
-            transform: Transform::from_xyz(10.0, 10.0, 3.1),
+            transform: Transform::from_xyz(spawn_point.x, spawn_point.y, 3.1),
             ..Default::default()
         })
         .insert(Walkable {
@@ -53,6 +58,11 @@ pub fn setup(
             },
             walk_right: vec![3, 4, 5, 4].into(),
             state: WalkableState::StillDown,
+        })
+        .insert(BoxCollider {
+            width: 32.,
+            height: 32.,
+            origin: spawn_point,
         })
         .insert(AnimationTimer(Timer::from_seconds(0.2, true)));
 }

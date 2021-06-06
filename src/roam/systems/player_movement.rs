@@ -19,6 +19,7 @@ pub fn player_movement(
             &mut Walkable,
             &mut Transform,
             &mut AnimationTimer,
+            &mut BoxCollider,
         )>,
         Query<(&Camera, &mut Transform)>,
     )>,
@@ -27,7 +28,8 @@ pub fn player_movement(
 ) {
     let mut delta = Vec3::ZERO;
 
-    for (_pandaman, mut walkable, mut sprite_transform, _animation_timer) in set.q0_mut().iter_mut()
+    for (_pandaman, mut walkable, mut sprite_transform, _animation_timer, mut collider) in
+        set.q0_mut().iter_mut()
     {
         let _direction = Vec3::ZERO;
         let curr_walkablestate = walkable.state;
@@ -69,11 +71,14 @@ pub fn player_movement(
                 LayerData::Finite(t) => t,
                 _ => vec![],
             };
-            if is_move_valid(sprite_transform.clone(), delta, tile_vec) {
+            if is_move_valid(&collider, &tile_vec) {
                 walkable.state = next_walkablestate;
                 sprite_transform.translation += delta;
+                collider.origin += Vec2::new(delta.x, delta.y);
             } else {
                 println!("Invalid move");
+                sprite_transform.translation -= delta;
+                collider.origin -= Vec2::new(delta.x, delta.y);
                 return;
             }
         }
@@ -83,14 +88,11 @@ pub fn player_movement(
     }
 }
 
-fn is_move_valid(transform: Transform, delta: Vec3, tile_vec: Vec<Vec<LayerTile>>) -> bool {
-    let mut next_transform = transform.clone();
-    next_transform.translation += delta;
-
-    let (next_x, next_y): (usize, usize) = (
-        next_transform.translation.x as usize,
-        next_transform.translation.y as usize,
-    );
-    println!("{:?}", (next_x, next_y));
-    tile_vec[next_x][next_y].gid == 0
+fn is_move_valid(collider: &BoxCollider, tile_vec: &Vec<Vec<LayerTile>>) -> bool {
+    for corner in collider.corners().iter() {
+        if tile_vec[(corner.x / 32.) as usize][(corner.y / 32.) as usize].gid == 0 {
+            return false;
+        }
+    }
+    return true;
 }
