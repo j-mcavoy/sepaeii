@@ -2,6 +2,7 @@ image: "rust:latest"
 
 build:cargo:
     before_script:
+      - apt update -y && apt install -y llvm
       - cargo install -f cargo-binutils
       - rustup default nightly
       - rustup component add llvm-tools-preview
