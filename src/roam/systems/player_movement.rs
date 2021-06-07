@@ -1,15 +1,11 @@
 use super::components::map_layers::*;
 use super::components::*;
 use bevy::prelude::*;
-use bevy::prelude::*;
 use bevy::render::camera::Camera;
 use bevy_tiled_prototype::Map;
-use bevy_tiled_prototype::MapReadyEvent;
-use bevy_tiled_prototype::TiledMapBundle;
-use tiled::LayerData;
 use tiled::LayerTile;
 
-const VELOCITY: f32 = 200.;
+const VELOCITY: f32 = 300.;
 pub fn player_movement(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
@@ -68,18 +64,23 @@ pub fn player_movement(
         for (_, map) in maps_handle.iter() {
             let layer = map.map.layers.get(OBJECTS).unwrap();
             let tile_vec = match layer.tiles.clone() {
-                LayerData::Finite(t) => t,
+                tiled::LayerData::Finite(t) => t,
                 _ => vec![],
             };
-            if is_move_valid(&collider, &tile_vec) {
+            if is_move_valid(&collider, &tile_vec, delta) {
                 walkable.state = next_walkablestate;
                 sprite_transform.translation += delta;
                 collider.origin += Vec2::new(delta.x, delta.y);
             } else {
+                walkable.state = match curr_walkablestate {
+                    WalkableState::WalkUp => WalkableState::StillUp,
+                    WalkableState::WalkDown => WalkableState::StillDown,
+                    WalkableState::WalkLeft => WalkableState::StillLeft,
+                    WalkableState::WalkRight => WalkableState::StillRight,
+                    _ => curr_walkablestate,
+                };
                 println!("Invalid move");
-                sprite_transform.translation -= delta;
-                collider.origin -= Vec2::new(delta.x, delta.y);
-                return;
+                delta = Vec3::ZERO;
             }
         }
     }
@@ -88,11 +89,32 @@ pub fn player_movement(
     }
 }
 
-fn is_move_valid(collider: &BoxCollider, tile_vec: &Vec<Vec<LayerTile>>) -> bool {
-    for corner in collider.corners().iter() {
-        if tile_vec[(corner.x / 32.) as usize][(corner.y / 32.) as usize].gid == 0 {
+fn is_move_valid(collider: &BoxCollider, tile_vec: &Vec<Vec<LayerTile>>, delta: Vec3) -> bool {
+    let mut c = collider.clone();
+    c.origin += (delta.x, delta.y).into();
+    println!("Delta: {:?}", delta);
+    let points = if delta.x > -0. {
+        vec![coord2map_index(&c.ne()), coord2map_index(&c.se())]
+    } else if delta.x < -0. {
+        vec![coord2map_index(&c.nw()), coord2map_index(&c.sw())]
+    } else if delta.y > -0. {
+        vec![coord2map_index(&c.nw()), coord2map_index(&c.ne())]
+    } else if delta.y < -0. {
+        vec![coord2map_index(&c.sw()), coord2map_index(&c.se())]
+    } else {
+        return true;
+    };
+
+    println!("Points: {:?}", points);
+    for point in points.iter() {
+        if tile_vec[point.1][point.0].gid != 0 {
+            println!("false");
             return false;
         }
     }
     return true;
+}
+
+pub fn coord2map_index(coord: &Vec2) -> (usize, usize) {
+    ((coord.x / 32.) as usize, (-coord.y / 32.) as usize)
 }

@@ -17,7 +17,7 @@ pub fn setup(
     );
     let pandaman = texture_atlases.add(pandaman);
 
-    let spawn_point = Vec2::new(21., -7.) * 32.;
+    let spawn_point = Vec2::new(35., -20.) * 32.;
 
     commands.spawn_bundle(OrthographicCameraBundle {
         transform: Transform::from_xyz(spawn_point.x, spawn_point.y, 100.),
@@ -30,6 +30,10 @@ pub fn setup(
             map_asset: asset_server.load("levels/roam/map.tmx"),
             center: TiledMapCenter(false),
             origin: Transform::from_xyz(0., 0., 0.),
+            debug_config: bevy_tiled_prototype::DebugConfig {
+                enabled: true,
+                ..Default::default()
+            },
             ..Default::default()
         });
     commands
@@ -60,9 +64,9 @@ pub fn setup(
             state: WalkableState::StillDown,
         })
         .insert(BoxCollider {
-            width: 32.,
-            height: 32.,
-            origin: spawn_point,
+            width: 21.,
+            height: 29.,
+            origin: spawn_point + Vec2::new(-2.0, -2.0),
         })
         .insert(AnimationTimer(Timer::from_seconds(0.2, true)));
 }
