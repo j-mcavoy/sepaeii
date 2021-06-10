@@ -2,6 +2,7 @@ image: "rust:latest"
 
 build:cargo:
     before_script:
+      - add-apt-repository ppa:chris-lea/munin-plugins
       - apt update -y && apt install -y llvm clang lld alsa
       - cargo install -f cargo-binutils
       - rustup default nightly
@@ -11,6 +12,7 @@ build:cargo:
 
 test:cargo:
     before_script:
+      - add-apt-repository ppa:chris-lea/munin-plugins
       - apt update -y && apt install -y llvm clang lld alsa
       - cargo install -f cargo-binutils
       - rustup default nightly
