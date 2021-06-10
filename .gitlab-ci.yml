@@ -2,7 +2,7 @@ image: "ubuntu:latest"
 
 build:cargo:
     before_script:
-      - apt update -y && apt install -y llvm clang lld alsa
+      - apt update -y && apt install -y llvm clang lld alsa curl
       - curl https://sh.rustup.rs -sSf | sh 
       - cargo install -f cargo-binutils
       - rustup default nightly
@@ -12,8 +12,8 @@ build:cargo:
 
 test:cargo:
     before_script:
+      - apt update -y && apt install -y llvm clang lld alsa curl
       - curl https://sh.rustup.rs -sSf | sh
-      - apt update -y && apt install -y llvm clang lld alsa
       - cargo install -f cargo-binutils
       - rustup default nightly
       - rustup component add llvm-tools-preview
