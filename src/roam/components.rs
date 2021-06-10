@@ -1,4 +1,3 @@
-
 use bevy::prelude::*;
 
 #[derive(Debug, Clone, Default)]
@@ -18,6 +17,16 @@ pub mod map_layers {
 pub struct Map;
 #[derive(Debug, Clone, Default)]
 pub struct PandaMan;
+#[derive(Debug, Clone, Default)]
+pub struct NPC {
+    pub converstations: Vec<Converstation>,
+    pub converstation_index: usize,
+}
+#[derive(Debug, Clone, Default)]
+pub struct Converstation {
+    pub text: String,
+    pub complete: bool,
+}
 
 trait Collider {
     fn collides(&self, point: Vec2) -> bool;

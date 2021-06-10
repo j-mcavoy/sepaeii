@@ -2,4 +2,5 @@
 pub enum RoamState {
     Play,
     Menu,
+    Converstation,
 }

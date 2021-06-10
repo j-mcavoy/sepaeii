@@ -6,6 +6,7 @@ pub fn toggle_menu(mut app_state: ResMut<State<RoamState>>, keyboard_input: Res<
         let next_state = match app_state.current() {
             RoamState::Play => RoamState::Menu,
             RoamState::Menu => RoamState::Play,
+            RoamState::Converstation => RoamState::Play,
         };
         app_state.set(next_state).unwrap();
     }
