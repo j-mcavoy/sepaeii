@@ -1,5 +1,5 @@
 use super::components::*;
-use bevy::{ecs::component::Component, input::keyboard::KeyboardInput, prelude::*};
+use bevy::{prelude::*};
 use bevy_tiled_prototype::MapReadyEvent;
 
 pub fn debug(mut event_rd: EventReader<MapReadyEvent>) {
@@ -12,7 +12,7 @@ pub fn debug_movement(
     query: Query<(&PandaMan, &Transform, &BoxCollider)>,
 ) {
     if keyboard_input.is_changed() {
-        for (_, transform, box_collider) in query.iter() {
+        for (_, _transform, _box_collider) in query.iter() {
             //println!("Pandaman Transform: {:?}", &transform.translation);
             //println!("Box Collider Origin: {:?}", &box_collider.origin);
             //println!(

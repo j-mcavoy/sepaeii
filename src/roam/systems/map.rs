@@ -1,11 +1,11 @@
-use super::components::map_layers::*;
+
 use bevy::prelude::*;
 use bevy_tiled_prototype::Map;
 use bevy_tiled_prototype::MapReadyEvent;
-use bevy_tiled_prototype::TiledMapBundle;
-use tiled::LayerData;
 
-pub fn map(asset_server: Res<AssetServer>, maps_handle: Res<Assets<Map>>) {}
+
+
+pub fn map(_asset_server: Res<AssetServer>, _maps_handle: Res<Assets<Map>>) {}
 
 pub fn tile_interpolation(
     mut map_ready_events: EventReader<MapReadyEvent>,
