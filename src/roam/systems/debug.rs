@@ -13,15 +13,15 @@ pub fn debug_movement(
 ) {
     if keyboard_input.is_changed() {
         for (_, transform, box_collider) in query.iter() {
-            println!("Pandaman Transform: {:?}", &transform.translation);
-            println!("Box Collider Origin: {:?}", &box_collider.origin);
-            println!(
-                "Map Location: {:?}",
-                super::player_movement::coord2map_index(&Vec2::new(
-                    transform.translation.x,
-                    transform.translation.y
-                ))
-            );
+            //println!("Pandaman Transform: {:?}", &transform.translation);
+            //println!("Box Collider Origin: {:?}", &box_collider.origin);
+            //println!(
+            //    "Map Location: {:?}",
+            //    super::player_movement::coord2map_index(&Vec2::new(
+            //        transform.translation.x,
+            //        transform.translation.y
+            //    ))
+            //);
         }
     }
 }
