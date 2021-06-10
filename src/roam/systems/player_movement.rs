@@ -7,10 +7,10 @@ use tiled::LayerTile;
 
 const VELOCITY: f32 = 300.;
 
-const UP_OFFSET: (f32, f32, f32) = (32., 0., 0.);
-const DOWN_OFFSET: (f32, f32, f32) = (-32., 0., 0.);
-const LEFT_OFFSET: (f32, f32, f32) = (0., 32., 0.);
-const RIGHT_OFFSET: (f32, f32, f32) = (0., 32., 0.);
+const UP_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (8., 0., 0.)];
+const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -10., 0.), (8., -10., 0.)];
+const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -10., 0.)];
+const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -10., 0.)];
 pub fn player_movement(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
@@ -41,59 +41,59 @@ pub fn player_movement(
             let next_walkablestate = if keyboard_input.pressed(KeyCode::W) {
                 let temp_next = delta * Vec3::Y;
                 if are_spaces_valid(
-                    vec![
-                        temp_next + sprite_transform.translation,
-                        temp_next + sprite_transform.translation + UP_OFFSET.into(),
-                    ],
+                    UP_OFFSETS
+                        .iter()
+                        .map(|offset| {
+                            sprite_transform.translation + temp_next + offset.clone().into()
+                        })
+                        .collect::<Vec<Vec3>>(),
                     &tile_vec,
                 ) {
                     next = temp_next;
-                    WalkableState::WalkUp
-                } else {
-                    curr_walkablestate
                 }
+                WalkableState::WalkUp
             } else if keyboard_input.pressed(KeyCode::A) {
                 let temp_next = delta * -Vec3::X;
                 if are_spaces_valid(
-                    vec![
-                        temp_next + sprite_transform.translation,
-                        temp_next + sprite_transform.translation + LEFT_OFFSET.into(),
-                    ],
+                    LEFT_OFFSETS
+                        .iter()
+                        .map(|offset| {
+                            sprite_transform.translation + temp_next + offset.clone().into()
+                        })
+                        .collect::<Vec<Vec3>>(),
                     &tile_vec,
                 ) {
                     next = temp_next;
-                    WalkableState::WalkLeft
-                } else {
-                    curr_walkablestate
                 }
+                WalkableState::WalkLeft
             } else if keyboard_input.pressed(KeyCode::S) {
                 let temp_next = delta * -Vec3::Y;
                 if are_spaces_valid(
-                    vec![
-                        temp_next + sprite_transform.translation,
-                        temp_next + sprite_transform.translation + DOWN_OFFSET.into(),
-                    ],
+                    DOWN_OFFSETS
+                        .iter()
+                        .map(|offset| {
+                            sprite_transform.translation + temp_next + offset.clone().into()
+                        })
+                        .collect::<Vec<Vec3>>(),
                     &tile_vec,
                 ) {
                     next = temp_next;
-                    WalkableState::WalkDown
-                } else {
-                    curr_walkablestate
                 }
+                WalkableState::WalkDown
             } else if keyboard_input.pressed(KeyCode::D) {
                 let temp_next = delta * Vec3::X;
                 if are_spaces_valid(
-                    vec![
-                        temp_next + sprite_transform.translation,
-                        temp_next + sprite_transform.translation + RIGHT_OFFSET.into(),
-                    ],
+                    RIGHT_OFFSETS
+                        .iter()
+                        .map(|offset| {
+                            sprite_transform.translation + temp_next + offset.clone().into()
+                        })
+                        .collect::<Vec<Vec3>>(),
                     &tile_vec,
                 ) {
                     next = temp_next;
-                    WalkableState::WalkRight
-                } else {
-                    curr_walkablestate
                 }
+                WalkableState::WalkRight
             } else {
                 match curr_walkablestate {
                     WalkableState::WalkUp => WalkableState::StillUp,
@@ -117,20 +117,13 @@ pub fn player_movement(
 }
 
 fn are_spaces_valid(player_coords: Vec<Vec3>, layer_vec: &Vec<Vec<LayerTile>>) -> bool {
+    print!("player_coords: {:?}", player_coords);
     let out = player_coords
         .iter()
         .inspect(|x| println!("{:?}", x))
         .map(|vec3| coord2map_index(&(vec3.x, vec3.y).into()))
         .inspect(|x| println!("{:?}", x))
         .all(|(x, y)| layer_vec[y][x].gid == 0);
-    let o = player_coords
-        .iter()
-        .inspect(|x| println!("{:?}", x))
-        .map(|vec3| coord2map_index(&(vec3.x, vec3.y).into()))
-        .inspect(|x| println!("{:?}", x))
-        .map(|(x, y)| layer_vec[y][x].gid)
-        .collect::<Vec<u32>>();
-    println!("o: {:?}", o);
     if !out {
         println!("INVALID MOVE");
     }
