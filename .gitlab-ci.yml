@@ -13,7 +13,7 @@ build:cargo:
 
 test:cargo:
     before_script:
-      - apt update -y && apt install -y llvm clang lld alsa
+      - apt update -y && apt install -y llvm clang lld alsa curl
       - curl https://sh.rustup.rs -sSf > rustup
       - sh rustup -y
       - cargo install -f cargo-binutils
