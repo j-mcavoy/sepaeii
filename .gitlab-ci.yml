@@ -5,6 +5,7 @@ build:cargo:
       - apt update -y && apt install -y llvm clang lld alsa curl
       - curl https://sh.rustup.rs -sSf > rustup
       - sh rustup -y
+      - source $HOME/.cargo/env
       - cargo install -f cargo-binutils
       - rustup default nightly
       - rustup component add llvm-tools-preview
@@ -16,6 +17,7 @@ test:cargo:
       - apt update -y && apt install -y llvm clang lld alsa curl
       - curl https://sh.rustup.rs -sSf > rustup
       - sh rustup -y
+      - source $HOME/.cargo/env
       - cargo install -f cargo-binutils
       - rustup default nightly
       - rustup component add llvm-tools-preview
