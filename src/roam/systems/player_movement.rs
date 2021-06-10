@@ -31,10 +31,15 @@ pub fn player_movement(
     for (_pandaman, mut walkable, mut sprite_transform, _animation_timer) in set.q0_mut().iter_mut()
     {
         for (_, map) in maps_handle.iter() {
-            let layer = map.map.layers.get(OBJECTS).unwrap();
-            let tile_vec = match layer.tiles.clone() {
+            let objects_layer = map.map.layers.get(OBJECTS).unwrap();
+            let object_layer = match objects_layer.tiles.clone() {
                 tiled::LayerData::Finite(t) => t,
-                _ => panic!("invalid map"),
+                _ => panic!("invalid map layer"),
+            };
+            let ground2_layer = map.map.layers.get(GROUND2).unwrap();
+            let ground2_layer = match ground2_layer.tiles.clone() {
+                tiled::LayerData::Finite(t) => t,
+                _ => panic!("invalid map layer"),
             };
             let _direction = Vec3::ZERO;
             let curr_walkablestate = walkable.state;
@@ -47,7 +52,8 @@ pub fn player_movement(
                             sprite_transform.translation + temp_next + offset.clone().into()
                         })
                         .collect::<Vec<Vec3>>(),
-                    &tile_vec,
+                    &object_layer,
+                    &ground2_layer,
                 ) {
                     next = temp_next;
                 }
@@ -61,7 +67,8 @@ pub fn player_movement(
                             sprite_transform.translation + temp_next + offset.clone().into()
                         })
                         .collect::<Vec<Vec3>>(),
-                    &tile_vec,
+                    &object_layer,
+                    &ground2_layer,
                 ) {
                     next = temp_next;
                 }
@@ -75,7 +82,8 @@ pub fn player_movement(
                             sprite_transform.translation + temp_next + offset.clone().into()
                         })
                         .collect::<Vec<Vec3>>(),
-                    &tile_vec,
+                    &object_layer,
+                    &ground2_layer,
                 ) {
                     next = temp_next;
                 }
@@ -89,7 +97,8 @@ pub fn player_movement(
                             sprite_transform.translation + temp_next + offset.clone().into()
                         })
                         .collect::<Vec<Vec3>>(),
-                    &tile_vec,
+                    &object_layer,
+                    &ground2_layer,
                 ) {
                     next = temp_next;
                 }
@@ -116,14 +125,18 @@ pub fn player_movement(
     }
 }
 
-fn are_spaces_valid(player_coords: Vec<Vec3>, layer_vec: &Vec<Vec<LayerTile>>) -> bool {
+fn are_spaces_valid(
+    player_coords: Vec<Vec3>,
+    object_layer: &Vec<Vec<LayerTile>>,
+    ground2_layer: &Vec<Vec<LayerTile>>,
+) -> bool {
     print!("player_coords: {:?}", player_coords);
     let out = player_coords
         .iter()
         .inspect(|x| println!("{:?}", x))
         .map(|vec3| coord2map_index(&(vec3.x, vec3.y).into()))
         .inspect(|x| println!("{:?}", x))
-        .all(|(x, y)| layer_vec[y][x].gid == 0);
+        .all(|(x, y)| ground2_layer[y][x].gid != 0 || object_layer[y][x].gid == 0);
     if !out {
         println!("INVALID MOVE");
     }
