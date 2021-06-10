@@ -2,7 +2,8 @@ image: "ubuntu:latest"
 
 build:cargo:
     before_script:
-      - DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y llvm clang lld alsa curl libasound2-dev pkg-config
+      - export DEBIAN_FRONTEND=noninteractive
+      - apt update -y && apt install -y llvm clang lld alsa curl libasound2-dev pkg-config
       - curl https://sh.rustup.rs -sSf > rustup
       - sh rustup -y
       - source $HOME/.cargo/env
@@ -14,7 +15,8 @@ build:cargo:
 
 test:cargo:
     before_script:
-      - DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y llvm clang lld alsa curl libasound2-dev pkg-config
+      - export DEBIAN_FRONTEND=noninteractive
+      - apt update -y && apt install -y llvm clang lld alsa curl libasound2-dev pkg-config
       - curl https://sh.rustup.rs -sSf > rustup
       - sh rustup -y
       - source $HOME/.cargo/env
