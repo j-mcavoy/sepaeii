@@ -16,14 +16,12 @@ impl Plugin for RoamPlugin {
             //    SystemSet::on_update(RoamState::Play).with_system(tile_interpolation.system()),
             //)
             .add_startup_system(setup.system())
-            .add_system_set(
-                SystemSet::on_update(RoamState::Play)
-                    .with_system(player_movement.system())
-                    .with_system(animate_walkable.system()),
-            )
             .add_system(toggle_menu.system())
             .add_system_set(
                 SystemSet::on_update(RoamState::Play)
+                    .with_system(player_movement.system())
+                    .with_system(npc_movement.system())
+                    .with_system(animate_walkable.system())
                     .with_system(map.system())
                     .with_system(debug.system())
                     .with_system(debug_movement.system()),
