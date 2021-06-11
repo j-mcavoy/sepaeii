@@ -14,7 +14,7 @@ pub fn animate_walkable(
     )>,
 ) {
     for (mut animation_timer, mut walkable, _transform, mut sprite, texture_atlas_handle) in
-        query.single_mut()
+        query.iter_mut()
     {
         animation_timer.0.tick(time.delta());
         if animation_timer.0.finished() {

@@ -16,6 +16,7 @@ impl Plugin for RoamPlugin {
             .add_startup_system(setup_camera.system())
             .add_startup_system(setup_map.system())
             .add_startup_system(setup_pandaman.system())
+            .add_startup_system(setup_npc.system())
             .add_system_set(SystemSet::on_enter(RoamState::Menu).with_system(setup_menu.system()))
             .add_system_set(SystemSet::on_exit(RoamState::Menu).with_system(destroy_menu.system()))
             .add_system_set(

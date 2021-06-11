@@ -19,8 +19,8 @@ pub struct Map;
 pub struct PandaMan;
 #[derive(Debug, Clone, Default)]
 pub struct NPC {
-    pub converstations: Vec<Converstation>,
-    pub converstation_index: usize,
+    //pub converstations: Vec<Converstation>,
+//pub converstation_index: usize,
 }
 #[derive(Debug, Clone, Default)]
 pub struct Converstation {
@@ -117,7 +117,7 @@ impl<T: Into<Vec<u32>>> From<T> for AnimationStrip {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Walkable {
     pub still_up: AnimationStrip,
     pub still_down: AnimationStrip,
@@ -156,4 +156,9 @@ pub enum WalkableState {
     WalkDown,
     WalkLeft,
     WalkRight,
+}
+impl Default for WalkableState {
+    fn default() -> Self {
+        Self::StillDown
+    }
 }

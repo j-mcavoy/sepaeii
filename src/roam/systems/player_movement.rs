@@ -8,9 +8,9 @@ use tiled::LayerTile;
 const VELOCITY: f32 = 300.;
 
 const UP_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (8., 0., 0.)];
-const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -10., 0.), (8., -10., 0.)];
-const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -10., 0.)];
-const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -10., 0.)];
+const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -8., 0.), (8., -8., 0.)];
+const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -8., 0.)];
+const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -8., 0.)];
 pub fn player_movement(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
