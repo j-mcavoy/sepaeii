@@ -68,7 +68,7 @@ fn collider() {
     assert_eq!(Vec2::new(1., 2.), c.nw());
     assert_eq!(Vec2::new(11., 2.), c.ne());
     assert_eq!(Vec2::new(11., 7.), c.se());
-    assert_eq!(Vec2::new(1.  7.), c.sw());
+    assert_eq!(Vec2::new(1., 7.), c.sw());
 }
 impl Collider for BoxCollider {
     fn collides(&self, point: Vec2) -> bool {
