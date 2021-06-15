@@ -6,4 +6,6 @@ pub use camera::*;
 pub use map::*;
 pub use pandaman::*;
 
-pub const SPAWN_POINT: (f32, f32) = (24. * 32., -8. * 32.);
+pub const TILE_HEIGHT: f32 = 16.;
+pub const TILE_WIDTH: f32 = 32.;
+pub const SPAWN_POINT: (f32, f32) = (0. * TILE_WIDTH, 0. * TILE_HEIGHT);

@@ -11,10 +11,10 @@ pub fn setup_pandaman(
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
     let pandaman = TextureAtlas::from_grid(
-        asset_server.load("levels/level01/marioPanda.png"),
+        asset_server.load("levels/level01/sprites/marioPanda.png"),
         Vec2::new(17.0, 28.0),
-        6,
         21,
+        6,
     );
     let pandaman = texture_atlases.add(pandaman);
 
@@ -23,23 +23,23 @@ pub fn setup_pandaman(
         .insert(PandaMan {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
-            transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, BACKGROUND as f32 + 0.1),
+            transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, BACKGROUND as f32 + 10.1),
             ..Default::default()
         })
         .insert(Character {
             still_left: AnimationStrip {
-                sequence: vec![4],
+                sequence: vec![0],
                 flip_x: true,
                 ..Default::default()
             },
-            still_right: vec![4].into(),
+            still_right: vec![0].into(),
             jump: vec![4].into(),
             walk_left: AnimationStrip {
-                sequence: vec![4, 3, 4, 5],
+                sequence: vec![0],
                 flip_x: true,
                 ..Default::default()
             },
-            walk_right: vec![4, 3, 4, 5].into(),
+            walk_right: vec![0].into(),
             ..Default::default()
         })
         .insert(AnimationTimer(Timer::from_seconds(0.2, true)));

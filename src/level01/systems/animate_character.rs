@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use super::components::*;
 
-pub fn animate_walkable(
+pub fn animate_character(
     time: Res<Time>,
     texture_atlases: Res<Assets<TextureAtlas>>,
     mut query: Query<(
