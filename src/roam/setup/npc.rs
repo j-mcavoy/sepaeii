@@ -9,6 +9,11 @@ pub fn setup_npc(
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
+    let npc1_spawn = Vec2::new(16., -7.) + Vec2::new(32., -21.) * 32.;
+    let npc2_spawn = Vec2::new(16., -7.) + Vec2::new(9., -94.) * 32.;
+    let npc3_spawn = Vec2::new(16., -7.) + Vec2::new(93., -92.) * 32.;
+    let npc4_spawn = Vec2::new(16., -7.) + Vec2::new(95., -91.) * 32.;
+
     let atlas = TextureAtlas::from_grid(
         asset_server.load("levels/roam/sprites/chars.png"),
         Vec2::new(32.0, 32.0),
@@ -22,7 +27,7 @@ pub fn setup_npc(
         .insert(NPC {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
-            transform: Transform::from_xyz(33. * 32., -33. * 32., GROUND2 as f32 + 0.1),
+            transform: Transform::from_xyz(npc1_spawn.x, npc1_spawn.y, OBJECTS as f32 + 0.1),
             ..Default::default()
         })
         .insert(Walkable {
@@ -43,7 +48,7 @@ pub fn setup_npc(
         .insert(NPC {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
-            transform: Transform::from_xyz(74. * 32., -22. * 32., GROUND2 as f32 + 0.1),
+            transform: Transform::from_xyz(npc2_spawn.x, npc2_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
         .insert(Walkable {
@@ -64,7 +69,7 @@ pub fn setup_npc(
         .insert(NPC {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
-            transform: Transform::from_xyz(22. * 32., -75. * 32., GROUND2 as f32 + 0.1),
+            transform: Transform::from_xyz(npc3_spawn.x, npc3_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
         .insert(Walkable {
@@ -85,7 +90,7 @@ pub fn setup_npc(
         .insert(NPC {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
-            transform: Transform::from_xyz(74. * 32., -80. * 32., GROUND2 as f32 + 0.1),
+            transform: Transform::from_xyz(npc4_spawn.x, npc4_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
         .insert(Walkable {

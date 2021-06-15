@@ -22,6 +22,7 @@ pub fn player_movement(
             &mut AnimationTimer,
         )>,
         Query<(&Camera, &mut Transform)>,
+        Query<(&NPC, &Sprite)>,
     )>,
     maps_handle: Res<Assets<Map>>,
 ) {
