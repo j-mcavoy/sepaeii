@@ -1,7 +1,8 @@
 use super::components::*;
+use crate::common::components::*;
 use bevy::prelude::*;
 
-pub fn npc_movement(mut query: Query<(&NPC, &mut Walkable, &AnimationTimer)>) {
+pub fn npc_movement(mut query: Query<(&NPC, &mut PandaManSprux, &AnimationTimer)>) {
     let _next = Vec3::ZERO;
 
     for (_npc, mut walkable, animation_timer) in query.iter_mut() {

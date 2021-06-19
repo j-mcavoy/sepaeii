@@ -1,9 +1,9 @@
+use super::super::components::*;
+use crate::common::components::*;
 use crate::roam::components::map_layers::*;
 
 use super::SPAWN_POINT;
 use bevy::prelude::*;
-
-use super::super::components::*;
 
 pub fn setup_pandaman(
     mut commands: Commands,
@@ -26,7 +26,7 @@ pub fn setup_pandaman(
             transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
-        .insert(Walkable {
+        .insert(PandaManSprux {
             still_up: vec![7].into(),
             still_down: vec![1].into(),
             still_left: AnimationStrip {

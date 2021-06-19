@@ -1,4 +1,5 @@
 use super::components::*;
+use crate::common::components::*;
 use bevy::prelude::*;
 use bevy::render::camera::Camera;
 use bevy_tiled_prototype::Map;
@@ -10,16 +11,12 @@ const UP_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (8., 0., 0.)];
 const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -8., 0.), (8., -8., 0.)];
 const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -8., 0.)];
 const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -8., 0.)];
+
 pub fn player_movement(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
     mut set: QuerySet<(
-        Query<(
-            &PandaMan,
-            &mut Character,
-            &mut Transform,
-            &mut AnimationTimer,
-        )>,
+        Query<(&PandaMan, &mut Mario, &mut Transform, &mut AnimationTimer)>,
         Query<(&Camera, &mut Transform)>,
         Query<(&NPC, &Sprite)>,
     )>,

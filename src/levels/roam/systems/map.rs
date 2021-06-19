@@ -1,6 +1,10 @@
+use crate::common::components::*;
+
 use bevy::prelude::*;
 use bevy_tiled_prototype::Map;
 use bevy_tiled_prototype::MapReadyEvent;
+
+pub fn map(_asset_server: Res<AssetServer>, _maps_handle: Res<Assets<Map>>) {}
 
 pub fn tile_interpolation(
     mut map_ready_events: EventReader<MapReadyEvent>,

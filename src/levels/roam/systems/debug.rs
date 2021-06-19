@@ -1,5 +1,6 @@
 use super::components::*;
-use bevy::{prelude::*};
+use crate::common::components::*;
+use bevy::prelude::*;
 use bevy_tiled_prototype::MapReadyEvent;
 
 pub fn debug(mut event_rd: EventReader<MapReadyEvent>) {

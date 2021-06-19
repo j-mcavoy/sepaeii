@@ -1,13 +1,14 @@
+use crate::common::components::*;
 use bevy::prelude::*;
 
 use super::components::*;
 
-pub fn animate_character(
+pub fn animate_walkable(
     time: Res<Time>,
     texture_atlases: Res<Assets<TextureAtlas>>,
     mut query: Query<(
         &mut AnimationTimer,
-        &mut Character,
+        &mut PandaManSprux,
         &Transform,
         &mut TextureAtlasSprite,
         &Handle<TextureAtlas>,
@@ -21,11 +22,14 @@ pub fn animate_character(
             if let Some(_texture_atlas) = texture_atlases.get(texture_atlas_handle) {
                 let state = walkable.state;
                 let animation_strip = match state {
-                    CharacterState::StillLeft => &mut walkable.still_left,
-                    CharacterState::StillRight => &mut walkable.still_right,
-                    CharacterState::WalkLeft => &mut walkable.walk_left,
-                    CharacterState::WalkRight => &mut walkable.walk_right,
-                    CharacterState::Jump => &mut walkable.jump,
+                    WalkableState::StillUp => &mut walkable.still_up,
+                    WalkableState::StillDown => &mut walkable.still_down,
+                    WalkableState::StillLeft => &mut walkable.still_left,
+                    WalkableState::StillRight => &mut walkable.still_right,
+                    WalkableState::WalkUp => &mut walkable.walk_up,
+                    WalkableState::WalkDown => &mut walkable.walk_down,
+                    WalkableState::WalkLeft => &mut walkable.walk_left,
+                    WalkableState::WalkRight => &mut walkable.walk_right,
                 };
                 animation_strip.next_frame();
                 sprite.index = animation_strip.get_frame();

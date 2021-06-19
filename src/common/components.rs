@@ -1,20 +1,8 @@
 use bevy::prelude::*;
 
-#[derive(Debug, Clone, Default)]
-pub struct MainMenu;
-pub mod map_layers {
-    pub const BACKGROUND: usize = 1;
-    pub const OBJECTS: usize = 2;
-}
-
-#[derive(Debug, Clone, Default)]
-pub struct Map;
-#[derive(Debug, Clone, Default)]
-pub struct PandaMan;
-#[derive(Debug, Clone, Default)]
-pub struct NPC {
-    //pub converstations: Vec<Converstation>,
-//pub converstation_index: usize,
+pub trait Spriteplex {
+    fn get_animation_strip(&self) -> AnimationStrip;
+    fn reset_animation_strip(&mut self);
 }
 
 trait Collider {
@@ -103,42 +91,5 @@ impl<T: Into<Vec<u32>>> From<T> for AnimationStrip {
             sequence: t.into(),
             ..Default::default()
         }
-    }
-}
-
-#[derive(Debug, Default, Clone)]
-pub struct Character {
-    pub still_left: AnimationStrip,
-    pub still_right: AnimationStrip,
-    pub jump: AnimationStrip,
-    pub walk_left: AnimationStrip,
-    pub walk_right: AnimationStrip,
-    pub state: CharacterState,
-}
-
-impl Character {
-    pub fn reset_animation_strip(&mut self) {
-        let strip = match self.state {
-            CharacterState::StillLeft => &mut self.still_left,
-            CharacterState::StillRight => &mut self.still_right,
-            CharacterState::WalkLeft => &mut self.walk_left,
-            CharacterState::WalkRight => &mut self.walk_right,
-            CharacterState::Jump => &mut self.walk_right,
-        };
-        strip.reset();
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum CharacterState {
-    Jump,
-    StillLeft,
-    StillRight,
-    WalkLeft,
-    WalkRight,
-}
-impl Default for CharacterState {
-    fn default() -> Self {
-        Self::StillRight
     }
 }

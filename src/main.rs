@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
-mod level01;
-mod roam;
+mod common;
+mod levels;
+use levels::*;
 
 fn main() {
     App::build()

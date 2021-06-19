@@ -18,11 +18,6 @@ impl Plugin for Level01Plugin {
             .add_startup_system(setup_pandaman.system())
             .add_system_set(SystemSet::on_enter(Menu).with_system(setup_menu.system()))
             .add_system_set(SystemSet::on_exit(Menu).with_system(destroy_menu.system()))
-            .add_system_set(
-                SystemSet::on_update(Play)
-                    .with_system(animate_character.system())
-                    .with_system(player_movement.system())
-                    .with_system(tile_interpolation.system()),
-            );
+            .add_system_set(SystemSet::on_update(Play).with_system(player_movement.system()));
     }
 }

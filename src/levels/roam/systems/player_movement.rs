@@ -1,5 +1,6 @@
 use super::components::map_layers::*;
 use super::components::*;
+use crate::common::components::*;
 use bevy::prelude::*;
 use bevy::render::camera::Camera;
 use bevy_tiled_prototype::Map;
@@ -17,7 +18,7 @@ pub fn player_movement(
     mut set: QuerySet<(
         Query<(
             &PandaMan,
-            &mut Walkable,
+            &mut PandaManSprux,
             &mut Transform,
             &mut AnimationTimer,
         )>,
