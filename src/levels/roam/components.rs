@@ -1,6 +1,6 @@
-use super::super::super::common::components::*;
 use crate::common::components::*;
 use bevy::prelude::*;
+use sepaeii_macros::SpriteplexM;
 
 #[derive(Debug, Clone, Default)]
 pub struct MainMenu;
@@ -22,6 +22,19 @@ pub struct NPC {
     //pub converstations: Vec<Converstation>,
 //pub converstation_index: usize,
 }
+#[derive(Debug, Clone, Copy, PartialEq, SpriteplexM)]
+pub enum NPCState {
+    StillUp,
+    StillDown,
+    StillLeft,
+    StillRight,
+}
+impl Default for NPCState {
+    fn default() -> Self {
+        Self::StillDown
+    }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct Converstation {
     pub text: String,
@@ -30,35 +43,9 @@ pub struct Converstation {
 
 #[derive(Debug, Clone, Default)]
 pub struct PandaMan;
-#[derive(Debug, Default, Clone)]
-pub struct PandaManSprux {
-    pub still_up: AnimationStrip,
-    pub still_down: AnimationStrip,
-    pub still_left: AnimationStrip,
-    pub still_right: AnimationStrip,
-    pub walk_up: AnimationStrip,
-    pub walk_down: AnimationStrip,
-    pub walk_left: AnimationStrip,
-    pub walk_right: AnimationStrip,
-    pub state: WalkableState,
-}
-impl PandaManSprux {
-    pub fn reset_animation_strip(&mut self) {
-        let strip = match self.state {
-            WalkableState::StillUp => &mut self.still_up,
-            WalkableState::StillDown => &mut self.still_down,
-            WalkableState::StillLeft => &mut self.still_left,
-            WalkableState::StillRight => &mut self.still_right,
-            WalkableState::WalkUp => &mut self.walk_up,
-            WalkableState::WalkDown => &mut self.walk_down,
-            WalkableState::WalkLeft => &mut self.walk_left,
-            WalkableState::WalkRight => &mut self.walk_right,
-        };
-        strip.reset();
-    }
-}
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum WalkableState {
+
+#[derive(Debug, Copy, Clone, PartialEq, SpriteplexM)]
+pub enum PandaManState {
     StillUp,
     StillDown,
     StillLeft,
@@ -68,7 +55,7 @@ pub enum WalkableState {
     WalkLeft,
     WalkRight,
 }
-impl Default for WalkableState {
+impl Default for PandaManState {
     fn default() -> Self {
         Self::StillDown
     }

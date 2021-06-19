@@ -1,7 +1,6 @@
 use super::components;
 use super::states;
 
-mod animate_walkable;
 mod debug;
 mod interactions;
 mod map;
@@ -10,7 +9,6 @@ mod npc_movement;
 mod player_movement;
 mod toggle_menu;
 
-pub use animate_walkable::*;
 pub use debug::*;
 pub use interactions::*;
 pub use map::*;

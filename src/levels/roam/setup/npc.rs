@@ -31,7 +31,7 @@ pub fn setup_npc(
             transform: Transform::from_xyz(npc1_spawn.x, npc1_spawn.y, OBJECTS as f32 + 0.1),
             ..Default::default()
         })
-        .insert(PandaManSprux {
+        .insert(NPCSpriteplex {
             still_up: vec![8].into(),
             still_down: vec![0].into(),
             still_left: AnimationStrip {
@@ -52,7 +52,7 @@ pub fn setup_npc(
             transform: Transform::from_xyz(npc2_spawn.x, npc2_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
-        .insert(PandaManSprux {
+        .insert(NPCSpriteplex {
             still_up: vec![9].into(),
             still_down: vec![1].into(),
             still_left: AnimationStrip {
@@ -73,7 +73,7 @@ pub fn setup_npc(
             transform: Transform::from_xyz(npc3_spawn.x, npc3_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
-        .insert(PandaManSprux {
+        .insert(NPCSpriteplex {
             still_up: vec![10].into(),
             still_down: vec![2].into(),
             still_left: AnimationStrip {
@@ -94,7 +94,7 @@ pub fn setup_npc(
             transform: Transform::from_xyz(npc4_spawn.x, npc4_spawn.y, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
-        .insert(PandaManSprux {
+        .insert(NPCSpriteplex {
             still_up: vec![11].into(),
             still_down: vec![3].into(),
             still_left: AnimationStrip {

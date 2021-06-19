@@ -1,5 +1,4 @@
 use crate::common::components::*;
-use bevy::prelude::*;
 
 use sepaeii_macros::SpriteplexM;
 

@@ -27,7 +27,7 @@ pub fn spriteplexm(input: TokenStream) -> TokenStream {
     let struct_ident = syn::Ident::new(&struct_name, ident.span());
     let output = quote! {
       #[derive(Debug, Clone, Default)]
-      struct #struct_ident {
+      pub struct #struct_ident {
           #(pub #animations: AnimationStrip,)*
           pub state: #ident
       }
@@ -36,6 +36,12 @@ pub fn spriteplexm(input: TokenStream) -> TokenStream {
               match self.state {
                   #(#ident::#states => self.#animations.clone()),*
               }
+          }
+          fn next_frame(&mut self) {
+              let strip = match self.state {
+                  #(#ident::#states => &mut self.#animations),*
+              };
+              strip.next_frame()
           }
           fn reset_animation_strip(&mut self) {
               let strip = match self.state {

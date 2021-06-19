@@ -4,9 +4,8 @@ mod common;
 mod levels;
 use levels::*;
 
+use levels::roam::plugin::RoamPlugin;
+
 fn main() {
-    App::build()
-        //.add_plugin(roam::plugin::RoamPlugin)
-        .add_plugin(level01::plugin::Level01Plugin)
-        .run();
+    App::build().add_plugin(RoamPlugin).run();
 }

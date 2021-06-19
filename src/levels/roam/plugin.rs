@@ -1,8 +1,10 @@
 use bevy::prelude::*;
 
+use super::components::*;
 use super::setup::*;
 use super::states::RoamState;
 use super::systems::*;
+use crate::common::systems::*;
 
 pub struct RoamPlugin;
 
@@ -21,7 +23,8 @@ impl Plugin for RoamPlugin {
             .add_system_set(SystemSet::on_exit(RoamState::Menu).with_system(destroy_menu.system()))
             .add_system_set(
                 SystemSet::on_update(RoamState::Play)
-                    .with_system(animate_walkable.system())
+                    .with_system(animate_spriteplex::<PandaManSpriteplex>.system())
+                    .with_system(animate_spriteplex::<NPCSpriteplex>.system())
                     .with_system(debug.system())
                     .with_system(debug_movement.system())
                     .with_system(map.system())

@@ -26,7 +26,7 @@ pub fn setup_pandaman(
             transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, GROUND2 as f32 + 0.1),
             ..Default::default()
         })
-        .insert(PandaManSprux {
+        .insert(PandaManSpriteplex {
             still_up: vec![7].into(),
             still_down: vec![1].into(),
             still_left: AnimationStrip {
@@ -43,7 +43,7 @@ pub fn setup_pandaman(
                 ..Default::default()
             },
             walk_right: vec![4, 3, 4, 5].into(),
-            state: WalkableState::StillDown,
+            state: PandaManState::StillDown,
         })
         .insert(AnimationTimer(Timer::from_seconds(0.2, true)));
 }

@@ -1,5 +1,5 @@
 use super::components::*;
-use crate::common::components::*;
+
 use bevy::prelude::*;
 
 pub fn interactions(

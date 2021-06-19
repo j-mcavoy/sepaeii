@@ -18,7 +18,7 @@ pub fn player_movement(
     mut set: QuerySet<(
         Query<(
             &PandaMan,
-            &mut PandaManSprux,
+            &mut PandaManSpriteplex,
             &mut Transform,
             &mut AnimationTimer,
         )>,
@@ -59,7 +59,7 @@ pub fn player_movement(
                 ) {
                     next = temp_next;
                 }
-                WalkableState::WalkUp
+                PandaManState::WalkUp
             } else if keyboard_input.pressed(KeyCode::A) {
                 let temp_next = delta * -Vec3::X;
                 if are_spaces_valid(
@@ -74,7 +74,7 @@ pub fn player_movement(
                 ) {
                     next = temp_next;
                 }
-                WalkableState::WalkLeft
+                PandaManState::WalkLeft
             } else if keyboard_input.pressed(KeyCode::S) {
                 let temp_next = delta * -Vec3::Y;
                 if are_spaces_valid(
@@ -89,7 +89,7 @@ pub fn player_movement(
                 ) {
                     next = temp_next;
                 }
-                WalkableState::WalkDown
+                PandaManState::WalkDown
             } else if keyboard_input.pressed(KeyCode::D) {
                 let temp_next = delta * Vec3::X;
                 if are_spaces_valid(
@@ -104,13 +104,13 @@ pub fn player_movement(
                 ) {
                     next = temp_next;
                 }
-                WalkableState::WalkRight
+                PandaManState::WalkRight
             } else {
                 match curr_walkablestate {
-                    WalkableState::WalkUp => WalkableState::StillUp,
-                    WalkableState::WalkDown => WalkableState::StillDown,
-                    WalkableState::WalkLeft => WalkableState::StillLeft,
-                    WalkableState::WalkRight => WalkableState::StillRight,
+                    PandaManState::WalkUp => PandaManState::StillUp,
+                    PandaManState::WalkDown => PandaManState::StillDown,
+                    PandaManState::WalkLeft => PandaManState::StillLeft,
+                    PandaManState::WalkRight => PandaManState::StillRight,
                     _ => curr_walkablestate,
                 }
             };

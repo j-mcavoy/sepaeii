@@ -1,7 +1,9 @@
-use bevy::prelude::*;
+use bevy::{ecs::component::Component, prelude::*};
 
-pub trait Spriteplex {
+#[reflect_trait]
+pub trait Spriteplex: Component {
     fn get_animation_strip(&self) -> AnimationStrip;
+    fn next_frame(&mut self);
     fn reset_animation_strip(&mut self);
 }
 

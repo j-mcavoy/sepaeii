@@ -1,5 +1,5 @@
 use super::components::*;
-use crate::common::components::*;
+
 use bevy::prelude::*;
 
 pub fn setup_menu(mut commands: Commands, asset_server: Res<AssetServer>) {

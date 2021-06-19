@@ -13,14 +13,14 @@ const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -8., 0.)];
 const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -8., 0.)];
 
 pub fn player_movement(
-    time: Res<Time>,
-    keyboard_input: Res<Input<KeyCode>>,
-    mut set: QuerySet<(
+    _time: Res<Time>,
+    _keyboard_input: Res<Input<KeyCode>>,
+    _set: QuerySet<(
         Query<(&PandaMan, &mut Mario, &mut Transform, &mut AnimationTimer)>,
         Query<(&Camera, &mut Transform)>,
         Query<(&NPC, &Sprite)>,
     )>,
-    maps_handle: Res<Assets<Map>>,
+    _maps_handle: Res<Assets<Map>>,
 ) {
 }
 
