@@ -51,6 +51,5 @@ pub fn spriteplexm(input: TokenStream) -> TokenStream {
           }
       }
     };
-    println!("{}", output.to_string());
     output.into()
 }
