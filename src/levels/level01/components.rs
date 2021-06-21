@@ -1,5 +1,6 @@
 use crate::common::components::*;
 
+use bevy::math::Vec3;
 use sepaeii_macros::SpriteplexM;
 
 #[derive(Debug, Clone, Default)]
@@ -11,63 +12,78 @@ pub mod map_layers {
 
 #[derive(Debug, Clone, Default)]
 pub struct Map;
-#[derive(Debug, Clone, Default)]
-pub struct PandaMan;
-#[derive(Debug, Clone, Default)]
-pub struct NPC {
-    //pub converstations: Vec<Converstation>,
-//pub converstation_index: usize,
-}
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-enum PowerUp {
+pub enum PowerUp {
     Star,
     FirePower,
 }
 
-// TODO: write macro to derive stated sprite logic
-
-//#[derive(Debug, Default, Clone)]
-pub struct Mario;
-//{
-//    pub is_big: bool,
-//    pub powerup: Option<PowerUp>,
-//    pub state: CharacterState,
-//    pub sm_mario_jump: AnimationStrip,
-//    pub sm_mario_crouch: AnimationStrip,
-//    pub sm_mario_still_left: AnimationStrip,
-//    pub sm_mario_still_right: AnimationStrip,
-//    pub sm_mario_walk_left: AnimationStrip,
-//    pub sm_mario_walk_right: AnimationStrip,
-//}
-//impl Mario {
-//    pub fn get_animation_strip(&self) -> AnimationStrip {
-//        match self.state {}
-//    }
-//    pub fn reset_animation_strip(&mut self) {
-//        let strip = match self.state {
-//            CharacterState::StillLeft => &mut self.still_left,
-//            CharacterState::StillRight => &mut self.still_right,
-//            CharacterState::WalkLeft => &mut self.walk_left,
-//            CharacterState::WalkRight => &mut self.walk_right,
-//            CharacterState::Jump => &mut self.walk_right,
-//        };
-//        strip.reset();
-//    }
-//}
+#[derive(Debug, Default, Clone)]
+pub struct Mario {
+    pub is_big: bool,
+    pub is_grounded: bool,
+    pub powerup: Option<PowerUp>,
+    pub velocity: Vec3,
+}
+impl Mario {
+    pub fn get_next_state(
+        &self,
+        just_jumped: bool,
+        right_pressed: bool,
+        left_pressed: bool,
+        down_pressed: bool,
+        _collision: u32,
+    ) -> MarioState {
+        MarioState::SmallMarioStillLeft
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, SpriteplexM)]
-pub enum CharacterState {
-    Jump,
-    StillLeft,
-    StillRight,
-    WalkLeft,
-    WalkRight,
-    Crouch,
+pub enum MarioState {
+    SmallMarioJump,
+    SmallMarioStillLeft,
+    SmallMarioStillRight,
+    SmallMarioWalkLeft,
+    SmallMarioWalkRight,
+    SmallMarioCrouchRight,
+    SmallMarioCrouchLeft,
+    SmallStarJump,
+    SmallStarStillLeft,
+    SmallStarStillRight,
+    SmallStarWalkLeft,
+    SmallStarWalkRight,
+    SmallStarCrouch,
+    SmallFirePowerStillRight,
+    SmallFirePowerWalkLeft,
+    SmallFirePowerWalkRight,
+    SmallFirePowerCrouchRight,
+    SmallFirePowerCrouchLeft,
+    BigMarioJump,
+    BigMarioStillLeft,
+    BigMarioStillRight,
+    BigMarioWalkLeft,
+    BigMarioWalkRight,
+    BigMarioCrouchRight,
+    BigMarioCrouchLeft,
+    BigStarJump,
+    BigStarStillLeft,
+    BigStarStillRight,
+    BigStarWalkLeft,
+    BigStarWalkRight,
+    BigStarCrouchRight,
+    BigStarCrouchLeft,
+    BigFirePowerJump,
+    BigFirePowerStillLeft,
+    BigFirePowerStillRight,
+    BigFirePowerWalkLeft,
+    BigFirePowerWalkRight,
+    BigFirePowerCrouchRight,
+    BigFirePowerCrouchLeft,
 }
-impl Default for CharacterState {
+impl Default for MarioState {
     fn default() -> Self {
-        Self::StillRight
+        Self::SmallMarioStillRight
     }
 }
 

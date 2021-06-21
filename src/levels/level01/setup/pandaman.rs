@@ -6,7 +6,7 @@ use bevy::prelude::*;
 
 use super::super::components::*;
 
-pub fn setup_pandaman(
+pub fn setup_mario(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
@@ -21,7 +21,49 @@ pub fn setup_pandaman(
 
     commands
         .spawn()
-        .insert(PandaMan {})
+        .insert(Mario::default())
+        .insert(MarioSpriteplex {
+            small_mario_jump: vec![0].into(),
+            small_mario_still_left: vec![0].into(),
+            small_mario_still_right: vec![0].into(),
+            small_mario_walk_left: vec![0].into(),
+            small_mario_walk_right: vec![0].into(),
+            small_mario_crouch_right: vec![0].into(),
+            small_mario_crouch_left: vec![0].into(),
+            small_star_jump: vec![0].into(),
+            small_star_still_left: vec![0].into(),
+            small_star_still_right: vec![0].into(),
+            small_star_walk_left: vec![0].into(),
+            small_star_walk_right: vec![0].into(),
+            small_star_crouch: vec![0].into(),
+            small_fire_power_still_right: vec![0].into(),
+            small_fire_power_walk_left: vec![0].into(),
+            small_fire_power_walk_right: vec![0].into(),
+            small_fire_power_crouch_right: vec![0].into(),
+            small_fire_power_crouch_left: vec![0].into(),
+            big_mario_jump: vec![0].into(),
+            big_mario_still_left: vec![0].into(),
+            big_mario_still_right: vec![0].into(),
+            big_mario_walk_left: vec![0].into(),
+            big_mario_walk_right: vec![0].into(),
+            big_mario_crouch_right: vec![0].into(),
+            big_mario_crouch_left: vec![0].into(),
+            big_star_jump: vec![0].into(),
+            big_star_still_left: vec![0].into(),
+            big_star_still_right: vec![0].into(),
+            big_star_walk_left: vec![0].into(),
+            big_star_walk_right: vec![0].into(),
+            big_star_crouch_right: vec![0].into(),
+            big_star_crouch_left: vec![0].into(),
+            big_fire_power_jump: vec![0].into(),
+            big_fire_power_still_left: vec![0].into(),
+            big_fire_power_still_right: vec![0].into(),
+            big_fire_power_walk_left: vec![0].into(),
+            big_fire_power_walk_right: vec![0].into(),
+            big_fire_power_crouch_right: vec![0].into(),
+            big_fire_power_crouch_left: vec![0].into(),
+            state: MarioState::SmallMarioStillRight,
+        })
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
             transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, BACKGROUND as f32 + 10.1),
