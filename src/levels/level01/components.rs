@@ -7,11 +7,27 @@ use sepaeii_macros::SpriteplexM;
 pub struct MainMenu;
 pub mod map_layers {
     pub const BACKGROUND: usize = 1;
-    pub const OBJECTS: usize = 2;
+    pub const OBJECTS: usize = 1;
 }
 
 #[derive(Debug, Clone, Default)]
 pub struct Map;
+
+#[derive(Debug, Clone, Default)]
+pub struct Brick {
+    item: Option<Item>,
+    disabled: bool,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct StaticObject;
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Item {
+    PowerUp(PowerUp),
+    Mushroom,
+    Coin,
+}
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum PowerUp {
@@ -23,19 +39,22 @@ pub enum PowerUp {
 pub struct Mario {
     pub is_big: bool,
     pub is_grounded: bool,
+    pub is_crouching: bool,
     pub powerup: Option<PowerUp>,
     pub velocity: Vec3,
 }
 impl Mario {
-    pub fn get_next_state(
-        &self,
-        just_jumped: bool,
-        right_pressed: bool,
-        left_pressed: bool,
-        down_pressed: bool,
-        _collision: u32,
-    ) -> MarioState {
-        MarioState::SmallMarioStillLeft
+    pub fn next_state(self) -> MarioState {
+        use MarioState::*;
+        let Mario {
+            is_big,
+            is_grounded,
+            is_crouching,
+            powerup,
+            velocity,
+        } = self;
+
+        MarioState::SmallMarioWalkRight
     }
 }
 

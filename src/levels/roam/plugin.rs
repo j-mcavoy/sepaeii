@@ -27,7 +27,6 @@ impl Plugin for RoamPlugin {
                     .with_system(animate_spriteplex::<NPCSpriteplex>.system())
                     .with_system(debug.system())
                     .with_system(debug_movement.system())
-                    .with_system(map.system())
                     .with_system(npc_movement.system())
                     .with_system(player_movement.system())
                     .with_system(tile_interpolation.system()),
