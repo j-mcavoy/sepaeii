@@ -11,7 +11,7 @@ pub mod map_layers {
 }
 
 #[derive(Debug, Clone, Default)]
-pub struct Map;
+pub struct Ground;
 
 #[derive(Debug, Clone, Default)]
 pub struct Brick {
@@ -45,13 +45,13 @@ pub struct Mario {
 }
 impl Mario {
     pub fn next_state(self) -> MarioState {
-        use MarioState::*;
+        
         let Mario {
-            is_big,
-            is_grounded,
-            is_crouching,
-            powerup,
-            velocity,
+            is_big: _,
+            is_grounded: _,
+            is_crouching: _,
+            powerup: _,
+            velocity: _,
         } = self;
 
         MarioState::SmallMarioWalkRight

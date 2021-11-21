@@ -12,7 +12,7 @@ pub fn camera_movement(
     for (_mario, transform) in set.q0().iter() {
         panda_translation = transform.translation;
     }
-    for (camera, mut camera_transform) in set.q1_mut().iter_mut() {
+    for (_camera, mut camera_transform) in set.q1_mut().iter_mut() {
         camera_transform.translation = camera_transform
             .translation
             .lerp(panda_translation + Vec3::new(25., 50., 0.), 0.05);
