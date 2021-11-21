@@ -46,7 +46,6 @@ pub fn player_movement(
         };
 
         let curr_walkablestate = walkable.state;
-        //let next_walkablestate = if keyboard_input.pressed(KeyCode::W)
         let (next_walkablestate, offsets, temp_next) =
             if keyboard_input.pressed(KeyCode::W) || keyboard_input.pressed(KeyCode::Up) {
                 (
