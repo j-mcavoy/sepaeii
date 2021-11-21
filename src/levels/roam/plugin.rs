@@ -11,6 +11,7 @@ pub struct RoamPlugin;
 impl Plugin for RoamPlugin {
     fn build(&self, app: &mut AppBuilder) {
         app.add_plugins(DefaultPlugins)
+            .add_system(bevy::input::system::exit_on_esc_system.system())
             .add_plugin(bevy_tiled_prototype::TiledMapPlugin)
             .add_state(RoamState::Menu)
             .add_system(bevy::input::system::exit_on_esc_system.system())
