@@ -28,101 +28,85 @@ pub fn player_movement(
     maps_handle: Res<Assets<Map>>,
 ) {
     let delta = VELOCITY * time.delta_seconds();
+
+    let (_pandaman, mut walkable, mut sprite_transform, _animation_timer) =
+        set.q0_mut().single_mut().unwrap();
+
     let mut next = Vec3::ZERO;
+    for (_, map) in maps_handle.iter() {
+        let objects_layer = map.map.layers.get(OBJECTS).unwrap();
+        let object_layer = match &objects_layer.tiles {
+            tiled::LayerData::Finite(t) => t,
+            _ => panic!("invalid map layer"),
+        };
+        let ground2_layer = map.map.layers.get(GROUND2).unwrap();
+        let ground2_layer = match &ground2_layer.tiles {
+            tiled::LayerData::Finite(t) => t,
+            _ => panic!("invalid map layer"),
+        };
 
-    for (_pandaman, mut walkable, mut sprite_transform, _animation_timer) in set.q0_mut().iter_mut()
-    {
-        for (_, map) in maps_handle.iter() {
-            let objects_layer = map.map.layers.get(OBJECTS).unwrap();
-            let object_layer = match objects_layer.tiles.clone() {
-                tiled::LayerData::Finite(t) => t,
-                _ => panic!("invalid map layer"),
-            };
-            let ground2_layer = map.map.layers.get(GROUND2).unwrap();
-            let ground2_layer = match ground2_layer.tiles.clone() {
-                tiled::LayerData::Finite(t) => t,
-                _ => panic!("invalid map layer"),
-            };
-            let _direction = Vec3::ZERO;
-            let curr_walkablestate = walkable.state;
-            let next_walkablestate = if keyboard_input.pressed(KeyCode::W)
-                || keyboard_input.pressed(KeyCode::Up)
-            {
-                let temp_next = delta * Vec3::Y;
-                if are_spaces_valid(
-                    UP_OFFSETS
-                        .iter()
-                        .map(|offset| {
-                            sprite_transform.translation + temp_next + offset.clone().into()
-                        })
-                        .collect::<Vec<Vec3>>(),
-                    &object_layer,
-                    &ground2_layer,
-                ) {
-                    next = temp_next;
-                }
-                PandaManState::WalkUp
+        let curr_walkablestate = walkable.state;
+        //let next_walkablestate = if keyboard_input.pressed(KeyCode::W)
+        let (next_walkablestate, offsets, temp_next) =
+            if keyboard_input.pressed(KeyCode::W) || keyboard_input.pressed(KeyCode::Up) {
+                (
+                    PandaManState::WalkUp,
+                    Some(UP_OFFSETS),
+                    Some(delta * Vec3::Y),
+                )
             } else if keyboard_input.pressed(KeyCode::A) || keyboard_input.pressed(KeyCode::Left) {
-                let temp_next = delta * -Vec3::X;
-                if are_spaces_valid(
-                    LEFT_OFFSETS
-                        .iter()
-                        .map(|offset| {
-                            sprite_transform.translation + temp_next + offset.clone().into()
-                        })
-                        .collect::<Vec<Vec3>>(),
-                    &object_layer,
-                    &ground2_layer,
-                ) {
-                    next = temp_next;
-                }
-                PandaManState::WalkLeft
+                (
+                    PandaManState::WalkLeft,
+                    Some(LEFT_OFFSETS),
+                    Some(delta * -Vec3::X),
+                )
             } else if keyboard_input.pressed(KeyCode::S) || keyboard_input.pressed(KeyCode::Down) {
-                let temp_next = delta * -Vec3::Y;
-                if are_spaces_valid(
-                    DOWN_OFFSETS
-                        .iter()
-                        .map(|offset| {
-                            sprite_transform.translation + temp_next + offset.clone().into()
-                        })
-                        .collect::<Vec<Vec3>>(),
-                    &object_layer,
-                    &ground2_layer,
-                ) {
-                    next = temp_next;
-                }
-                PandaManState::WalkDown
+                (
+                    PandaManState::WalkDown,
+                    Some(DOWN_OFFSETS),
+                    Some(delta * -Vec3::Y),
+                )
             } else if keyboard_input.pressed(KeyCode::D) || keyboard_input.pressed(KeyCode::Right) {
-                let temp_next = delta * Vec3::X;
-                if are_spaces_valid(
-                    RIGHT_OFFSETS
-                        .iter()
-                        .map(|offset| {
-                            sprite_transform.translation + temp_next + offset.clone().into()
-                        })
-                        .collect::<Vec<Vec3>>(),
-                    &object_layer,
-                    &ground2_layer,
-                ) {
-                    next = temp_next;
-                }
-                PandaManState::WalkRight
+                (
+                    PandaManState::WalkRight,
+                    Some(RIGHT_OFFSETS),
+                    Some(delta * Vec3::X),
+                )
             } else {
-                match curr_walkablestate {
-                    PandaManState::WalkUp => PandaManState::StillUp,
-                    PandaManState::WalkDown => PandaManState::StillDown,
-                    PandaManState::WalkLeft => PandaManState::StillLeft,
-                    PandaManState::WalkRight => PandaManState::StillRight,
-                    _ => curr_walkablestate,
-                }
+                (
+                    match curr_walkablestate {
+                        PandaManState::WalkUp => PandaManState::StillUp,
+                        PandaManState::WalkDown => PandaManState::StillDown,
+                        PandaManState::WalkLeft => PandaManState::StillLeft,
+                        PandaManState::WalkRight => PandaManState::StillRight,
+                        _ => curr_walkablestate,
+                    },
+                    None,
+                    None,
+                )
             };
-            sprite_transform.translation += next;
-
-            if curr_walkablestate != next_walkablestate {
-                walkable.reset_animation_strip();
-            }
-            walkable.state = next_walkablestate;
+        if offsets.is_some()
+            && are_spaces_valid(
+                offsets
+                    .unwrap()
+                    .iter()
+                    .map(|offset| {
+                        sprite_transform.translation + temp_next.unwrap() + (*offset).into()
+                    })
+                    .collect::<Vec<Vec3>>(),
+                &object_layer,
+                &ground2_layer,
+            )
+        {
+            next = temp_next.unwrap()
         }
+
+        sprite_transform.translation += next;
+
+        if curr_walkablestate != next_walkablestate {
+            walkable.reset_animation_strip();
+        }
+        walkable.state = next_walkablestate;
     }
     for (_, mut transform) in set.q1_mut().iter_mut() {
         transform.translation += next;
