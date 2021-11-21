@@ -26,3 +26,7 @@ pub fn animate_spriteplex<S: Component + Spriteplex>(
         }
     }
 }
+
+pub fn hot_reload_assets(asset_server: Res<AssetServer>) {
+    asset_server.watch_for_changes().unwrap();
+}

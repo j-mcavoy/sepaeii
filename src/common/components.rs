@@ -1,6 +1,5 @@
 use bevy::{ecs::component::Component, prelude::*};
 
-#[reflect_trait]
 pub trait Spriteplex: Component {
     fn get_animation_strip(&self) -> AnimationStrip;
     fn next_frame(&mut self);
@@ -37,32 +36,6 @@ impl BoxCollider {
         vec![self.nw(), self.ne(), self.sw(), self.se()]
     }
 }
-#[test]
-fn collider() {
-    let c = BoxCollider {
-        width: 10.,
-        height: 5.,
-        origin: (1., 2.).into(),
-    };
-    assert_eq!(Vec2::new(1., 2.), c.nw());
-    assert_eq!(Vec2::new(11., 2.), c.ne());
-    assert_eq!(Vec2::new(11., 7.), c.se());
-    assert_eq!(Vec2::new(1., 7.), c.sw());
-}
-impl Collider for BoxCollider {
-    fn collides(&self, point: Vec2) -> bool {
-        let nw = self.nw();
-        let se = self.se();
-        (nw.x <= point.x && nw.y <= point.y) || (se.x >= point.x && se.y >= point.y)
-    }
-}
-
-#[derive(Bundle)]
-pub struct BoxColliderBundle {
-    pub collider: BoxCollider,
-    #[bundle]
-    pub sprite_bundle: SpriteBundle,
-}
 
 #[derive(Debug, Clone)]
 pub struct AnimationTimer(pub Timer);
@@ -93,5 +66,32 @@ impl<T: Into<Vec<u32>>> From<T> for AnimationStrip {
             sequence: t.into(),
             ..Default::default()
         }
+    }
+}
+
+#[derive(Bundle)]
+pub struct BoxColliderBundle {
+    pub collider: BoxCollider,
+    #[bundle]
+    pub sprite_bundle: SpriteBundle,
+}
+
+#[test]
+fn collider() {
+    let c = BoxCollider {
+        width: 10.,
+        height: 5.,
+        origin: (1., 2.).into(),
+    };
+    assert_eq!(Vec2::new(1., 2.), c.nw());
+    assert_eq!(Vec2::new(11., 2.), c.ne());
+    assert_eq!(Vec2::new(11., 7.), c.se());
+    assert_eq!(Vec2::new(1., 7.), c.sw());
+}
+impl Collider for BoxCollider {
+    fn collides(&self, point: Vec2) -> bool {
+        let nw = self.nw();
+        let se = self.se();
+        (nw.x <= point.x && nw.y <= point.y) || (se.x >= point.x && se.y >= point.y)
     }
 }

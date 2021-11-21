@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_tiled_prototype::Map;
+
 use bevy_tiled_prototype::MapReadyEvent;
 
 pub fn tile_interpolation(

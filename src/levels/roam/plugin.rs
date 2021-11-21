@@ -14,6 +14,7 @@ impl Plugin for RoamPlugin {
             .add_plugin(bevy_tiled_prototype::TiledMapPlugin)
             .add_state(RoamState::Menu)
             .add_system(bevy::input::system::exit_on_esc_system.system())
+            .add_startup_system(hot_reload_assets.system())
             .add_system(toggle_menu.system())
             .add_startup_system(setup_camera.system())
             .add_startup_system(setup_map.system())
@@ -26,7 +27,6 @@ impl Plugin for RoamPlugin {
                     .with_system(animate_spriteplex::<PandaManSpriteplex>.system())
                     .with_system(animate_spriteplex::<NPCSpriteplex>.system())
                     .with_system(debug.system())
-                    .with_system(debug_movement.system())
                     .with_system(npc_movement.system())
                     .with_system(player_movement.system())
                     .with_system(tile_interpolation.system()),

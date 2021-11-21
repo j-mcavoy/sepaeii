@@ -1,5 +1,5 @@
-use super::components::*;
-use crate::common::components::*;
+
+
 use bevy::prelude::*;
 use bevy_tiled_prototype::MapReadyEvent;
 
@@ -8,6 +8,7 @@ pub fn debug(mut event_rd: EventReader<MapReadyEvent>) {
         println!("Map Ready!");
     }
 }
+/*
 pub fn debug_movement(
     keyboard_input: Res<Input<KeyCode>>,
     query: Query<(&PandaMan, &Transform, &BoxCollider)>,
@@ -26,3 +27,4 @@ pub fn debug_movement(
         }
     }
 }
+*/

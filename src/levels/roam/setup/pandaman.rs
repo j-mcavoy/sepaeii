@@ -23,7 +23,7 @@ pub fn setup_pandaman(
         .insert(PandaMan {})
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: pandaman,
-            transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, GROUND2 as f32 + 0.1),
+            transform: Transform::from_xyz(SPAWN_POINT.0, SPAWN_POINT.1, GROUND2 as f32 + 0.2),
             ..Default::default()
         })
         .insert(PandaManSpriteplex {

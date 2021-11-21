@@ -11,9 +11,9 @@ pub fn setup_npc(
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
     let npc1_spawn = Vec2::new(16., -7.) + Vec2::new(32., -21.) * 32.;
-    let npc2_spawn = Vec2::new(16., -7.) + Vec2::new(9., -94.) * 32.;
-    let npc3_spawn = Vec2::new(16., -7.) + Vec2::new(93., -92.) * 32.;
-    let npc4_spawn = Vec2::new(16., -7.) + Vec2::new(95., -91.) * 32.;
+    let npc2_spawn = Vec2::new(16., -7.) + Vec2::new(95., -11.) * 32.;
+    let npc3_spawn = Vec2::new(16., -7.) + Vec2::new(9., -94.) * 32.;
+    let npc4_spawn = Vec2::new(16., -7.) + Vec2::new(93., -92.) * 32.;
 
     let atlas = TextureAtlas::from_grid(
         asset_server.load("levels/roam/sprites/chars.png"),

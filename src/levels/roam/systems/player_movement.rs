@@ -9,9 +9,9 @@ use tiled::LayerTile;
 const VELOCITY: f32 = 300.;
 
 const UP_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (8., 0., 0.)];
-const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -8., 0.), (8., -8., 0.)];
-const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -8., 0.)];
-const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -8., 0.)];
+const DOWN_OFFSETS: [(f32, f32, f32); 2] = [(-8., -20., 0.), (8., -20., 0.)];
+const LEFT_OFFSETS: [(f32, f32, f32); 2] = [(-8., 0., 0.), (-8., -20., 0.)];
+const RIGHT_OFFSETS: [(f32, f32, f32); 2] = [(8., 0., 0.), (8., -20., 0.)];
 pub fn player_movement(
     time: Res<Time>,
     keyboard_input: Res<Input<KeyCode>>,
@@ -45,7 +45,9 @@ pub fn player_movement(
             };
             let _direction = Vec3::ZERO;
             let curr_walkablestate = walkable.state;
-            let next_walkablestate = if keyboard_input.pressed(KeyCode::W) {
+            let next_walkablestate = if keyboard_input.pressed(KeyCode::W)
+                || keyboard_input.pressed(KeyCode::Up)
+            {
                 let temp_next = delta * Vec3::Y;
                 if are_spaces_valid(
                     UP_OFFSETS
@@ -60,7 +62,7 @@ pub fn player_movement(
                     next = temp_next;
                 }
                 PandaManState::WalkUp
-            } else if keyboard_input.pressed(KeyCode::A) {
+            } else if keyboard_input.pressed(KeyCode::A) || keyboard_input.pressed(KeyCode::Left) {
                 let temp_next = delta * -Vec3::X;
                 if are_spaces_valid(
                     LEFT_OFFSETS
@@ -75,7 +77,7 @@ pub fn player_movement(
                     next = temp_next;
                 }
                 PandaManState::WalkLeft
-            } else if keyboard_input.pressed(KeyCode::S) {
+            } else if keyboard_input.pressed(KeyCode::S) || keyboard_input.pressed(KeyCode::Down) {
                 let temp_next = delta * -Vec3::Y;
                 if are_spaces_valid(
                     DOWN_OFFSETS
@@ -90,7 +92,7 @@ pub fn player_movement(
                     next = temp_next;
                 }
                 PandaManState::WalkDown
-            } else if keyboard_input.pressed(KeyCode::D) {
+            } else if keyboard_input.pressed(KeyCode::D) || keyboard_input.pressed(KeyCode::Right) {
                 let temp_next = delta * Vec3::X;
                 if are_spaces_valid(
                     RIGHT_OFFSETS
