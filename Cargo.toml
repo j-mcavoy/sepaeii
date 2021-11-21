@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-bevy = { version = "*", features = ["dynamic"] }
 bevy_tiled_prototype = { git = "https://github.com/j-mcavoy/bevy_tiled.git" }
 tiled = "0.9.5"
 sepaeii_macros = { path = "sepaeii_macros" }
+rand = "0.8.4"
 
 [features]
 destructuring_assignment =[]
@@ -19,3 +19,27 @@ opt-level = 3
 # Maybe also enable only a small amount of optimization for our code:
 [profile.dev]
 opt-level = 1
+
+
+[dependencies.bevy_kira_audio]
+git = 'https://github.com/NiklasEi/bevy_kira_audio.git'
+default-features = false
+features = [
+  "ogg",
+]
+
+[dependencies.bevy]
+version = "0.5"
+default-features = false
+# These are the remaining default features other than `bevy_audio` and `mp3`
+features = [
+  "bevy_dynamic_plugin",
+  "render",
+  "bevy_wgpu",
+  "bevy_winit",
+  "bevy_gilrs",
+  "bevy_gltf",
+  "png",
+  "hdr",
+  "x11"
+]
