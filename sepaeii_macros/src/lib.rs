@@ -17,7 +17,6 @@ pub fn spriteplexm(input: TokenStream) -> TokenStream {
     };
 
     let animations: Vec<syn::Ident> = states
-        .clone()
         .iter()
         .map(|s| s.to_string().to_case(Case::Snake))
         .map(|s| syn::Ident::new(&s, ident.span()))
