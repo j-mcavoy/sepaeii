@@ -1,20 +1,26 @@
 use super::components::*;
+use super::states::RoamState::{self, *};
+use bevy::ecs::schedule::StateError::*;
 use bevy::prelude::*;
 use bevy_kira_audio::{Audio, AudioChannel};
 use rand::Rng;
 
-pub fn destroy_menu(
-    mut commands: Commands,
-    query: Query<Entity, With<MainMenu>>,
-    audio: Res<Audio>,
-) {
-    println!("destroy_menu called");
-    for entity in query.iter() {
-        commands.entity(entity).despawn_recursive();
+pub fn toggle_menu(mut app_state: ResMut<State<RoamState>>, keyboard_input: Res<Input<KeyCode>>) {
+    if keyboard_input.just_pressed(KeyCode::Space) {
+        if app_state.current() == &Menu {
+            match app_state.pop() {
+                Ok(_) => {}
+                Err(StackEmpty) => {
+                    app_state.set(Play).unwrap();
+                }
+                Err(AlreadyInState) => {}
+                Err(StateAlreadyQueued) => {}
+            }
+        } else {
+            app_state.push(Menu).unwrap();
+        }
     }
-    audio.stop_channel(&AudioChannel::new("menu-music".to_owned()));
 }
-
 pub fn setup_menu(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
@@ -22,7 +28,7 @@ pub fn setup_menu(
     audio: Res<Audio>,
 ) {
     let mut rng = rand::thread_rng();
-    let music_no = rng.gen_range(0u8..9u8);
+    let music_no = rng.gen_range(1u8..9u8);
     audio.play_looped_with_intro_in_channel(
         asset_server.load(format!("music/Metal{:02}Intro.ogg", music_no).as_str()),
         asset_server.load(format!("music/Metal{:02}Loop.ogg", music_no).as_str()),
@@ -30,10 +36,10 @@ pub fn setup_menu(
     );
 
     // ui camera
-    commands.spawn_bundle(UiCameraBundle::default());
-    // root node
     commands
-        .spawn_bundle(NodeBundle {
+        .spawn_bundle(UiCameraBundle::default())
+        .insert(MainMenu)
+        .insert_bundle(NodeBundle {
             style: Style {
                 size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
                 justify_content: JustifyContent::SpaceBetween,
@@ -42,7 +48,6 @@ pub fn setup_menu(
             material: materials.add(Color::NONE.into()),
             ..Default::default()
         })
-        .insert(MainMenu)
         .insert_bundle(NodeBundle {
             style: Style {
                 size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
@@ -65,4 +70,15 @@ pub fn setup_menu(
                 ..Default::default()
             });
         });
+}
+pub fn destroy_menu(
+    mut commands: Commands,
+    query: Query<Entity, With<MainMenu>>,
+    audio: Res<Audio>,
+) {
+    println!("destroy_menu called");
+    for entity in query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+    audio.stop_channel(&AudioChannel::new("menu-music".to_owned()));
 }

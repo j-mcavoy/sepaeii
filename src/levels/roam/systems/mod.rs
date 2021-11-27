@@ -1,18 +1,19 @@
 use super::components;
 use super::states;
 
+mod camera;
 mod debug;
-mod interactions;
+mod dialog;
 mod map;
 mod menu;
-mod npc_movement;
-mod player_movement;
-mod toggle_menu;
+mod npc;
+mod pandaman;
 
+pub use camera::*;
 pub use debug::*;
-pub use interactions::*;
+pub use dialog::*;
 pub use map::*;
 pub use menu::*;
-pub use npc_movement::*;
-pub use player_movement::*;
-pub use toggle_menu::*;
+pub use menu::*;
+pub use npc::*;
+pub use pandaman::*;

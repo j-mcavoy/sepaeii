@@ -97,5 +97,5 @@ pub fn setup_mario(
             ),
             ..Default::default()
         })
-        .insert(AnimationTimer(Timer::from_seconds(0.2, true)));
+        .insert(AnimationTimer::from_timer(Timer::from_seconds(0.2, true)));
 }

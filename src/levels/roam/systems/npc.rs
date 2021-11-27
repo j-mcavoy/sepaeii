@@ -1,9 +1,6 @@
-use crate::common::components::*;
+use super::components::*;
 use crate::roam::components::map_layers::*;
-
 use bevy::prelude::*;
-
-use super::super::components::*;
 
 pub fn setup_npc(
     mut commands: Commands,
@@ -25,7 +22,9 @@ pub fn setup_npc(
 
     commands
         .spawn()
-        .insert(NPC {})
+        .insert(NPC {
+            converstations: vec!["Hello".to_owned()],
+        })
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
             transform: Transform::from_xyz(npc1_spawn.x, npc1_spawn.y, OBJECTS as f32 + 0.1),
@@ -42,11 +41,13 @@ pub fn setup_npc(
             still_right: vec![4].into(),
             ..Default::default()
         })
-        .insert(AnimationTimer(Timer::from_seconds(1.0, true)));
+        .insert(AnimationTimer::from_timer((Timer::from_seconds(1.0, true))));
 
     commands
         .spawn()
-        .insert(NPC {})
+        .insert(NPC {
+            converstations: vec!["Hello".to_owned()],
+        })
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
             transform: Transform::from_xyz(npc2_spawn.x, npc2_spawn.y, GROUND2 as f32 + 0.1),
@@ -63,11 +64,13 @@ pub fn setup_npc(
             still_right: vec![5].into(),
             ..Default::default()
         })
-        .insert(AnimationTimer(Timer::from_seconds(1.0, true)));
+        .insert(AnimationTimer::from_timer((Timer::from_seconds(1.0, true))));
 
     commands
         .spawn()
-        .insert(NPC {})
+        .insert(NPC {
+            converstations: vec!["Hello".to_owned()],
+        })
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
             transform: Transform::from_xyz(npc3_spawn.x, npc3_spawn.y, GROUND2 as f32 + 0.1),
@@ -84,11 +87,13 @@ pub fn setup_npc(
             still_right: vec![6].into(),
             ..Default::default()
         })
-        .insert(AnimationTimer(Timer::from_seconds(1.0, true)));
+        .insert(AnimationTimer::from_timer((Timer::from_seconds(1.0, true))));
 
     commands
         .spawn()
-        .insert(NPC {})
+        .insert(NPC {
+            converstations: vec!["Hello".to_owned()],
+        })
         .insert_bundle(SpriteSheetBundle {
             texture_atlas: atlas_handle.clone(),
             transform: Transform::from_xyz(npc4_spawn.x, npc4_spawn.y, GROUND2 as f32 + 0.1),
@@ -105,5 +110,22 @@ pub fn setup_npc(
             still_right: vec![7].into(),
             ..Default::default()
         })
-        .insert(AnimationTimer(Timer::from_seconds(1.0, true)));
+        .insert(AnimationTimer::from_timer((Timer::from_seconds(1.0, true))));
+}
+
+pub fn npc_movement(mut query: Query<(&NPC, &mut NPCSpriteplex, &mut AnimationTimer)>) {
+    let _next = Vec3::ZERO;
+
+    for (_npc, mut npc_spriteplex, mut animation_timer) in query.iter_mut() {
+        if animation_timer.timer.finished() {
+            npc_spriteplex.state = match npc_spriteplex.state {
+                NPCState::StillUp => NPCState::StillLeft,
+                NPCState::StillLeft => NPCState::StillDown,
+                NPCState::StillDown => NPCState::StillRight,
+                NPCState::StillRight => NPCState::StillUp,
+            };
+            animation_timer.timer.reset();
+            animation_timer.force_update = true;
+        }
+    }
 }
