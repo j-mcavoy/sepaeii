@@ -81,10 +81,10 @@ pub fn dialog(
         keyboard_input.reset(KeyCode::C);
         let result = app_state.pop();
         println!("pop dialog {:?}", result);
+        for mut dialog in dialog_query.single_mut() {
+            let transform = *transform_query.single().unwrap();
+            let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
+            commands.spawn_bundle(DialogUiBundle::from((dialog.clone(), transform, font)));
+        }
     }
-    //for mut dialog in dialog_query.single_mut() {
-    //    let transform = *transform_query.single().unwrap();
-    //    let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
-    //    commands.spawn_bundle(DialogUiBundle::from((dialog.clone(), transform, font)));
-    //}
 }

@@ -54,7 +54,12 @@ impl Plugin for RoamPlugin {
                             .after("player_movement"),
                     )
                     .with_system(tile_interpolation.system().after("menu"))
-                    .with_system(npc_movement.system().after("player_movement"))
+                    .with_system(
+                        npc_movement
+                            .system()
+                            .label("npc_movement")
+                            .after("player_movement"),
+                    )
                     .with_system(npc_interactions.system().after("npc_movement")),
             )
             .add_state(RoamState::Menu);

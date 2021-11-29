@@ -34,21 +34,12 @@ pub fn setup_menu(
         asset_server.load(format!("music/Metal{:02}Loop.ogg", music_no).as_str()),
         &AudioChannel::new("menu-music".to_owned()),
     );
-
-    // ui camera
     commands
         .spawn_bundle(UiCameraBundle::default())
-        .insert(MainMenu)
-        .insert_bundle(NodeBundle {
-            style: Style {
-                size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
-                justify_content: JustifyContent::SpaceBetween,
-                ..Default::default()
-            },
-            material: materials.add(Color::NONE.into()),
-            ..Default::default()
-        })
-        .insert_bundle(NodeBundle {
+        .insert(MainMenu);
+    // ui camera
+    commands
+        .spawn_bundle(NodeBundle {
             style: Style {
                 size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
                 position_type: PositionType::Absolute,
@@ -63,20 +54,20 @@ pub fn setup_menu(
             // bevy logo (image)
             parent.spawn_bundle(ImageBundle {
                 style: Style {
-                    size: Size::new(Val::Px(800.0), Val::Auto),
+                    size: Size::new(Val::Px(500.0), Val::Auto),
                     ..Default::default()
                 },
                 material: materials.add(asset_server.load("images/title.png").into()),
                 ..Default::default()
             });
-        });
+        })
+        .insert(MainMenu);
 }
 pub fn destroy_menu(
     mut commands: Commands,
     query: Query<Entity, With<MainMenu>>,
     audio: Res<Audio>,
 ) {
-    println!("destroy_menu called");
     for entity in query.iter() {
         commands.entity(entity).despawn_recursive();
     }
