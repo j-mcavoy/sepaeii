@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 pub use crate::common::components::*;
 use bevy::prelude::*;
 use sepaeii_macros::SpriteplexM;
@@ -23,48 +25,45 @@ pub struct Map;
 pub struct NPC {
     pub converstations: Vec<String>,
 }
-pub type Dialog = Vec<String>;
+pub type Dialog = VecDeque<String>;
+pub struct DialogUi;
 
 #[derive(Bundle)]
 pub struct DialogUiBundle {
-    dialog: Dialog,
+    pub dialog: Dialog,
+    pub dialog_ui: DialogUi,
+    //#[bundle]
+    //pub ui_camera_bundle: UiCameraBundle,
     #[bundle]
-    ui_camera_bundle: UiCameraBundle,
-    text_bundle: TextBundle,
+    pub text_bundle: TextBundle,
 }
-impl From<(Dialog, Transform, Handle<Font>)> for DialogUiBundle {
-    fn from((dialog, transform, font): (Dialog, Transform, Handle<Font>)) -> Self {
+impl From<(Dialog, Handle<Font>)> for DialogUiBundle {
+    fn from((mut dialog, font): (Dialog, Handle<Font>)) -> Self {
+        let text = dialog.pop_front().expect("empty dialog vec").clone();
         Self {
             dialog,
-            ui_camera_bundle: UiCameraBundle {
-                transform,
-                ..Default::default()
-            },
+            dialog_ui: DialogUi,
             text_bundle: TextBundle {
                 style: Style {
                     align_self: AlignSelf::FlexEnd,
                     position_type: PositionType::Absolute,
                     position: Rect {
-                        top: Val::Px(5.0),
+                        bottom: Val::Px(5.0),
                         right: Val::Px(15.0),
                         ..Default::default()
-                    },
-                    max_size: Size {
-                        width: Val::Px(30.),
-                        height: Val::Undefined,
                     },
                     ..Default::default()
                 },
                 text: Text::with_section(
-                    "",
+                    text,
                     TextStyle {
                         font,
-                        font_size: 30.0,
-                        color: Color::rgb(1., 1., 1.),
+                        font_size: 100.0,
+                        color: Color::WHITE,
                     },
                     TextAlignment {
                         horizontal: HorizontalAlign::Center,
-                        vertical: VerticalAlign::Center,
+                        ..Default::default()
                     },
                 ),
                 ..Default::default()

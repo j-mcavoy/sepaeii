@@ -66,25 +66,41 @@ pub fn npc_interactions(
     }
 }
 
-pub fn setup_dialog() {}
-pub fn destroy_dialog() {}
-
 pub fn dialog(
-    mut commands: Commands,
-    mut dialog_query: Query<&Dialog>,
-    transform_query: Query<&Transform, With<PandaMan>>,
+    mut dialog_query: Query<&mut Dialog>,
+    mut text_query: Query<&mut Text, With<DialogUi>>,
     mut keyboard_input: ResMut<Input<KeyCode>>,
-    asset_server: Res<AssetServer>,
     mut app_state: ResMut<State<RoamState>>,
 ) {
     if keyboard_input.just_pressed(KeyCode::C) {
         keyboard_input.reset(KeyCode::C);
-        let result = app_state.pop();
-        println!("pop dialog {:?}", result);
-        for mut dialog in dialog_query.single_mut() {
-            let transform = *transform_query.single().unwrap();
-            let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
-            commands.spawn_bundle(DialogUiBundle::from((dialog.clone(), transform, font)));
+        let mut dialog = dialog_query.single_mut().unwrap();
+        if dialog.len() > 0 {
+            let mut text = text_query.single_mut().unwrap();
+            text.sections[0].value = dialog.pop_front().unwrap();
+        } else {
+            app_state.pop().unwrap();
+            keyboard_input.reset(KeyCode::C);
         }
+    }
+}
+pub fn setup_dialog(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
+    commands
+        .spawn_bundle(UiCameraBundle::default())
+        .insert(DialogUi);
+    commands.spawn_bundle(DialogUiBundle::from((
+        vec![
+            "Hello".to_string(),
+            "There".to_string(),
+            "Pandaman".to_string(),
+        ]
+        .into(),
+        font,
+    )));
+}
+pub fn destroy_dialog(mut commands: Commands, query: Query<Entity, With<DialogUi>>) {
+    for entity in query.iter() {
+        commands.entity(entity).despawn_recursive();
     }
 }
