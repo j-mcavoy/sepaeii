@@ -5,7 +5,7 @@ use bevy::prelude::*;
 
 pub fn npc_interactions(
     mut commands: Commands,
-    keyboard_input: Res<Input<KeyCode>>,
+    mut keyboard_input: ResMut<Input<KeyCode>>,
     pandaman_query: Query<(&Transform, &PandaManSpriteplex), With<PandaMan>>,
     dialog_query: Query<&Dialog>,
     mut npc_query: Query<
@@ -14,7 +14,8 @@ pub fn npc_interactions(
     >,
     mut app_state: ResMut<State<RoamState>>,
 ) {
-    if keyboard_input.pressed(KeyCode::C) && dialog_query.single().is_err() {
+    if keyboard_input.just_pressed(KeyCode::C) && dialog_query.single().is_err() {
+        keyboard_input.reset(KeyCode::C);
         let (pandaman_transform, player_spriteplex) = pandaman_query.single().unwrap();
         let px = pandaman_transform.translation.x;
         let py = pandaman_transform.translation.y;
@@ -72,12 +73,18 @@ pub fn dialog(
     mut commands: Commands,
     mut dialog_query: Query<&Dialog>,
     transform_query: Query<&Transform, With<PandaMan>>,
-    keyboard_input: Res<Input<KeyCode>>,
+    mut keyboard_input: ResMut<Input<KeyCode>>,
     asset_server: Res<AssetServer>,
+    mut app_state: ResMut<State<RoamState>>,
 ) {
-    for mut dialog in dialog_query.single_mut() {
-        let transform = *transform_query.single().unwrap();
-        let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
-        commands.spawn_bundle(DialogUiBundle::from((dialog.clone(), transform, font)));
+    if keyboard_input.just_pressed(KeyCode::C) {
+        keyboard_input.reset(KeyCode::C);
+        let result = app_state.pop();
+        println!("pop dialog {:?}", result);
     }
+    //for mut dialog in dialog_query.single_mut() {
+    //    let transform = *transform_query.single().unwrap();
+    //    let font: Handle<Font> = asset_server.load("fonts/FiraSans-Bold.ttf");
+    //    commands.spawn_bundle(DialogUiBundle::from((dialog.clone(), transform, font)));
+    //}
 }
